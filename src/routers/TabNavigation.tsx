@@ -42,35 +42,13 @@ const TabNavigation = (): React.JSX.Element => {
             />
           );
         },
+        headerShown: false,
+        tabBarShowLabel: false,
       })}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarShowLabel: false,
-        }}
-      />
-      <Tab.Screen
-        name="Favorites"
-        component={Favorites}
-        options={{
-          tabBarShowLabel: false,
-        }}
-      />
-      <Tab.Screen
-        name="Notification"
-        component={Notification}
-        options={{
-          tabBarShowLabel: false,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarShowLabel: false,
-        }}
-      />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Favorites" component={Favorites} />
+      <Tab.Screen name="Notification" component={Notification} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
