@@ -1,8 +1,5 @@
+import {Favorites, Home, Notification, Profile} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/home/Home';
-import Favorites from '../screens/favorites/Favorites';
-import Notification from '../screens/notification/Notification';
-import Profile from '../screens/profile/Profile';
 import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator();
@@ -11,25 +8,17 @@ const TabNavigation = (): React.JSX.Element => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused}) => {
           let iconSource;
 
           if (route.name === 'Home') {
-            iconSource = focused
-              ? require('../assets/icons/ic_home_active.png')
-              : require('../assets/icons/ic_home_inactive.png');
+            iconSource = require('../assets/icons/ic_home.png');
           } else if (route.name === 'Favorites') {
-            iconSource = focused
-              ? require('../assets/icons/ic_save_active.png')
-              : require('../assets/icons/ic_save_inactive.png');
+            iconSource = require('../assets/icons/ic_save.png');
           } else if (route.name === 'Notification') {
-            iconSource = focused
-              ? require('../assets/icons/ic_notification_active.png')
-              : require('../assets/icons/ic_notification_inactive.png');
+            iconSource = require('../assets/icons/ic_notification.png');
           } else if (route.name === 'Profile') {
-            iconSource = focused
-              ? require('../assets/icons/ic_user_active.png')
-              : require('../assets/icons/ic_user_inactive.png');
+            iconSource = require('../assets/icons/ic_user.png');
           }
 
           return (
@@ -38,6 +27,7 @@ const TabNavigation = (): React.JSX.Element => {
               style={{
                 width: 24,
                 height: 24,
+                tintColor: focused ? 'black' : undefined,
               }}
             />
           );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 
 const Home = (): React.JSX.Element => {
   return (
@@ -9,6 +9,8 @@ const Home = (): React.JSX.Element => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  root: {},
+});
 
 export default Home;

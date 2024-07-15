@@ -1,15 +1,13 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import Boarding from '../screens/boarding/Boarding';
-import TabNavigation from './TabNavigation';
-import Login from '../screens/login/Login';
-import SignUp from '../screens/signUp/SignUp';
+import {Boarding, Login, Register} from '@/screens';
+import TabNavigation from '@/routers/TabNavigation';
 
 export type RootStackParamsList = {
   Boarding: undefined;
   Login: undefined;
-  SignUp: undefined;
+  Register: undefined;
   TabNavigation: undefined;
 };
 
@@ -24,7 +22,7 @@ const AppNavigation = (): React.JSX.Element => {
         <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="Boarding" component={Boarding} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
