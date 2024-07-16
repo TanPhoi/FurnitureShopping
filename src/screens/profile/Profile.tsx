@@ -1,7 +1,7 @@
-import React, {JSX} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Profile = (): JSX.Element => {
+const Profile = (): React.JSX.Element => {
   return (
     <View>
       <Text> Profile</Text>

@@ -1,23 +1,25 @@
 import {Favorites, Home, Notification, Profile} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image, ImageSourcePropType} from 'react-native';
-import {ic_home, ic_save, ic_notification, ic_user} from '@/assets/icons/index';
+import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator();
-
-const icons: Record<string, ImageSourcePropType> = {
-  Home: ic_home,
-  Favorites: ic_save,
-  Notification: ic_notification,
-  Profile: ic_user,
-};
 
 const TabNavigation = (): React.JSX.Element => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
-          const iconSource = icons[route.name];
+          let iconSource;
+
+          if (route.name === 'Home') {
+            iconSource = require('../assets/icons/ic_home.png');
+          } else if (route.name === 'Favorites') {
+            iconSource = require('../assets/icons/ic_save.png');
+          } else if (route.name === 'Notification') {
+            iconSource = require('../assets/icons/ic_notification.png');
+          } else if (route.name === 'Profile') {
+            iconSource = require('../assets/icons/ic_user.png');
+          }
 
           return (
             <Image

@@ -1,7 +1,7 @@
-import React, {JSX} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 
-const Home = (): JSX.Element => {
+const Home = (): React.JSX.Element => {
   return (
     <View>
       <Text> Home</Text>
