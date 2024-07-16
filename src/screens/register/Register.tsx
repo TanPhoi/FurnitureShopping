@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Register = (): React.JSX.Element => {
+const Register = (): JSX.Element => {
   return (
     <View>
       <Text> SignUp</Text>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Login = (): React.JSX.Element => {
+const Login = (): JSX.Element => {
   return (
     <View>
       <Text> Login</Text>

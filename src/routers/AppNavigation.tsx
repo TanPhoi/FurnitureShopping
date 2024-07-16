@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {JSX} from 'react';
 import {Boarding, Login, Register} from '@/screens';
 import TabNavigation from '@/routers/TabNavigation';
 
@@ -12,17 +12,17 @@ export type RootStackParamsList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
-const AppNavigation = (): React.JSX.Element => {
+const AppNavigation = (): JSX.Element => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="Boarding" component={Boarding} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="TabNavigation" component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
