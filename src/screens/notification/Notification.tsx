@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Notification = (): React.JSX.Element => {
+const Notification = (): JSX.Element => {
   return (
     <View>
       <Text> Notification</Text>

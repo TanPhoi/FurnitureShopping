@@ -19,10 +19,10 @@ const AppNavigation = (): React.JSX.Element => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="Boarding" component={Boarding} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="TabNavigation" component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

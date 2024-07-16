@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Favorites = (): React.JSX.Element => {
+const Favorites = (): JSX.Element => {
   return (
     <View>
       <Text> Favorites</Text>
