@@ -11,16 +11,14 @@ import {
 
 type TextWithInputProps = {
   label: string;
-  isShow: boolean;
-  isCheck: boolean;
+  isShowPassword: boolean;
   onChangeText: (text: string) => void;
   togglePasswordVisibility?: () => void;
 };
 
 const TextWithInput = ({
   label,
-  isShow,
-  isCheck,
+  isShowPassword,
   onChangeText,
   togglePasswordVisibility = () => {},
 }: TextWithInputProps): JSX.Element => {
@@ -34,11 +32,7 @@ const TextWithInput = ({
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <View
-        style={[
-          styles.inputContainer,
-          {borderColor: isCheck ? 'red' : '#ccc'},
-        ]}>
+      <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           secureTextEntry={
@@ -53,7 +47,7 @@ const TextWithInput = ({
           <TouchableOpacity
             onPress={handleTogglePasswordVisibility}
             style={styles.eyeIcon}>
-            {isShow && (
+            {isShowPassword && (
               <Image
                 style={styles.icon}
                 source={isVisible ? ic_eye : ic_eye_hide}
