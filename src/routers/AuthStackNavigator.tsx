@@ -3,19 +3,18 @@ import React, {JSX, useEffect, useState} from 'react';
 import {Boarding, Login, Register} from '@/screens';
 import TabNavigation from './TabNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MainStackNavigator from './MainStackNavigator';
 
 export type RootAuthStackParamsList = {
   Boarding: undefined;
   Login: undefined;
   Register: undefined;
-  TabNavigation: undefined;
+  MainStackNavigator: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootAuthStackParamsList>();
 const AuthStackNavigator = (): JSX.Element => {
-  const [initialRoute, setInitialRoute] = useState<boolean | undefined>(
-    undefined,
-  );
+  const [initialRoute, setInitialRoute] = useState<boolean | undefined>(false);
 
   useEffect(() => {
     AsyncStorage.getItem('hasSeenBoarding')
@@ -36,15 +35,10 @@ const AuthStackNavigator = (): JSX.Element => {
       screenOptions={{
         headerShown: false,
       }}>
-      {!initialRoute ? (
-        <Stack.Screen name="Boarding" component={Boarding} />
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="TabNavigation" component={TabNavigation} />
-        </>
-      )}
+      {!initialRoute && <Stack.Screen name="Boarding" component={Boarding} />}
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="MainStackNavigator" component={MainStackNavigator} />
     </Stack.Navigator>
   );
 };

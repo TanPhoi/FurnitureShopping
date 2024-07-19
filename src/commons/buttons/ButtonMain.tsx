@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     borderRadius: spacing.sm,
-    marginHorizontal: spacing.lg,
     shadowColor: colors.shadow,
     shadowOffset: {width: 0, height: spacing.xs},
     shadowOpacity: 0.2,

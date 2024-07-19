@@ -18,6 +18,12 @@ import ic_trash from '@/assets/icons/ic_trash.png';
 import ic_user from '@/assets/icons/ic_user.png';
 import ic_eye_hide from '@/assets/icons/ic_eye_hide.png';
 import ic_exit from '@/assets/icons/ic_exit.png';
+import ic_star from '@/assets/icons/ic_star.png';
+import ic_chair from '@/assets/icons/ic_chair.png';
+import ic_table from '@/assets/icons/ic_table.png';
+import ic_armchair from '@/assets/icons/ic_armchair.png';
+import ic_bed from '@/assets/icons/ic_bed.png';
+import ic_lamp from '@/assets/icons/ic_lamp.png';
 
 export {
   ic_add,
@@ -40,4 +46,10 @@ export {
   ic_user,
   ic_eye_hide,
   ic_exit,
+  ic_star,
+  ic_chair,
+  ic_table,
+  ic_armchair,
+  ic_bed,
+  ic_lamp,
 };

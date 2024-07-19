@@ -54,7 +54,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{name: 'TabNavigation'}],
+              routes: [{name: 'MainStackNavigator'}],
             }),
           );
         } else {
