@@ -1,15 +1,14 @@
-import {CustomButton, HeaderDivider, TextWithInput} from '@/components';
-import {RootStackParamsList} from '@/routers/AppNavigation';
-import {colors} from '@/themes/colors';
-import {commonStyles} from '@/utils/styles';
+import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
+import {colors, spacing} from '@/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {JSX, useEffect, useState} from 'react';
+import React, {JSX, useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type LoginProps = {
-  navigation: NativeStackNavigationProp<RootStackParamsList, 'Login'>;
+  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Login'>;
 };
 
 type User = {
@@ -20,15 +19,15 @@ type User = {
 };
 
 const Login = ({navigation}: LoginProps): JSX.Element => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const handleForgotPassword = () => {};
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const handleForgotPassword = (): void => {};
 
-  const handleRegister = () => {
+  const handleRegister = (): void => {
     navigation.navigate('Register');
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     if (!email || !password) {
       Alert.alert('Please fill in all fields');
       return;
@@ -42,6 +41,16 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
           parsedUserData.email === email &&
           parsedUserData.password === password
         ) {
+          await AsyncStorage.setItem(
+            'loggedInUser',
+            JSON.stringify(parsedUserData),
+          );
+
+          await AsyncStorage.setItem(
+            'loggedInUser',
+            JSON.stringify(parsedUserData),
+          );
+
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
@@ -65,24 +74,22 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
         </View>
 
         <View style={styles.txtContainer}>
-          <Text style={[commonStyles.txtHeader, styles.txtHello]}>Hello !</Text>
-          <Text style={[commonStyles.txtHeader, styles.txtWelcome]}>
-            WELCOME BACK
-          </Text>
+          <Text style={styles.txtHello}>Hello !</Text>
+          <Text style={styles.txtWelcome}>WELCOME BACK</Text>
         </View>
       </View>
 
       <View style={styles.formBottom}>
         <View style={styles.formLogin}>
-          <TextWithInput
-            label={'Email'}
+          <TextInputMain
+            label="Email"
             isShowPassword={false}
             onChangeText={setEmail}
           />
 
-          <TextWithInput
-            label={'Password'}
-            isShowPassword={true}
+          <TextInputMain
+            label="Password"
+            isShowPassword
             onChangeText={setPassword}
           />
 
@@ -93,7 +100,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
           </TouchableOpacity>
 
           <View style={styles.button}>
-            <CustomButton title="Log in" onPress={handleLogin} />
+            <ButtonMain title="Log in" onPress={handleLogin} />
           </View>
 
           <TouchableOpacity style={styles.tcbSignUp} onPress={handleRegister}>
@@ -107,57 +114,67 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: spacing.lg,
   },
 
   headerDivider: {
-    marginTop: 10,
+    marginTop: spacing.sm,
   },
 
   txtContainer: {
-    marginTop: 40,
+    marginTop: spacing.xl,
   },
   txtHello: {
     color: colors.text,
+    fontSize: 30,
+    fontFamily: 'Merriweather',
+    lineHeight: 45,
   },
   txtWelcome: {
-    color: colors.textTitle,
+    color: colors.black_font,
+    fontSize: 24,
+    fontWeight: '700',
+    letterSpacing: 1.2,
+    lineHeight: 45,
   },
 
   formBottom: {
     alignItems: 'center',
   },
   formLogin: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     width: '92%',
-    paddingVertical: 40,
+    paddingVertical: spacing.xl,
     shadowColor: 'gray',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 4,
-    rowGap: 10,
+    rowGap: spacing.sm,
   },
 
   tcbForgotPassword: {
-    marginTop: 20,
+    marginTop: spacing.md,
     alignSelf: 'center',
   },
   txtForgotPassword: {
-    color: colors.label,
-    fontSize: 14,
+    color: colors.black_font,
+    fontSize: 18,
+    fontFamily: 'NunitoSans',
+    fontWeight: '600',
   },
 
-  button: {marginTop: 20},
+  button: {marginTop: spacing.md},
 
   tcbSignUp: {
-    marginTop: 20,
+    marginTop: spacing.md,
     alignSelf: 'center',
   },
   txtSignUp: {
     color: colors.label,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '600',
+    fontFamily: 'NunitoSans',
   },
 });
 

@@ -1,11 +1,10 @@
-import {CustomButton, HeaderDivider, TextWithInput} from '@/components';
-import {RootStackParamsList} from '@/routers/AppNavigation';
-
+import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
+import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
-import {commonStyles} from '@/utils/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useEffect, useState} from 'react';
+import React, {JSX, useState} from 'react';
 import {
   Alert,
   ScrollView,
@@ -23,15 +22,16 @@ type User = {
 };
 
 type RegisterProps = {
-  navigation: NativeStackNavigationProp<RootStackParamsList, 'Register'>;
+  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Register'>;
 };
+
 const Register = ({navigation}: RegisterProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const saveUserDataToAsyncStorage = async (userData: User) => {
+  const saveUserDataToAsyncStorage = async (userData: User): Promise<void> => {
     try {
       await AsyncStorage.setItem('user', JSON.stringify(userData));
       navigation.goBack();
@@ -40,16 +40,16 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
     }
   };
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email: string): boolean => {
     const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  const validatePassword = (password: string) => {
+  const validatePassword = (password: string): boolean => {
     return password.length >= 6 && /[A-Z!@#$%^&*]/.test(password);
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (): Promise<void> => {
     // if (!name || !email || !password || !confirmPassword) {
     //   Alert.alert('Please, fill in all the fields');
     //   return;
@@ -77,7 +77,7 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
     saveUserDataToAsyncStorage(userData);
   };
 
-  const handleBackLogin = () => {
+  const handleBackLogin = (): void => {
     navigation.goBack();
   };
 
@@ -116,16 +116,14 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
         </View>
 
         <View style={styles.txtContainer}>
-          <Text style={[commonStyles.txtHeader, styles.txtWelcome]}>
-            WELCOME
-          </Text>
+          <Text style={styles.txtWelcome}>WELCOME</Text>
         </View>
       </View>
 
       <View style={styles.formBottom}>
         <View style={styles.formLogin}>
           {inputFields.map((input, index) => (
-            <TextWithInput
+            <TextInputMain
               key={index}
               label={input.label}
               isShowPassword={input.isShowPassword}
@@ -134,7 +132,7 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
           ))}
 
           <View style={styles.button}>
-            <CustomButton title="SIGN UP" onPress={handleRegister} />
+            <ButtonMain title="SIGN UP" onPress={handleRegister} />
           </View>
 
           <View style={styles.signUpContainer}>
@@ -153,57 +151,63 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: spacing.lg,
   },
 
   headerDivider: {
-    marginTop: 10,
+    marginTop: spacing.sm,
   },
 
   txtContainer: {
-    marginTop: 40,
+    marginTop: spacing.xl,
   },
   txtHello: {
     color: colors.text,
   },
   txtWelcome: {
-    color: colors.textTitle,
+    color: colors.black_font,
+    fontFamily: 'Merriweather',
+    fontSize: 24,
+    fontWeight: '700',
+    letterSpacing: 1.2,
   },
 
   formBottom: {
     alignItems: 'center',
   },
   formLogin: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     width: '92%',
-    paddingVertical: 40,
-    shadowColor: 'gray',
-    shadowOffset: {width: 0, height: 2},
+    paddingVertical: spacing.lg,
+    shadowColor: colors.black_3,
+    shadowOffset: {width: 0, height: spacing.xs},
     shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowRadius: spacing.xs,
     elevation: 4,
-    rowGap: 10,
   },
 
-  button: {marginTop: 20},
+  button: {
+    marginTop: spacing.md,
+  },
 
   signUpContainer: {
-    marginTop: 20,
+    marginTop: spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   txtHaveAccount: {
-    color: colors.label,
+    color: colors.grey,
     fontSize: 14,
+    fontFamily: 'NunitoSans',
+    fontWeight: '600',
   },
   tcbSignUp: {
     alignSelf: 'center',
   },
   txtSignUp: {
-    color: colors.label,
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: colors.black_font,
+    fontWeight: '700',
   },
 });
 

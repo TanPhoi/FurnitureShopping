@@ -1,4 +1,5 @@
 import {ic_eye, ic_eye_hide} from '@/assets/icons';
+import {colors, spacing} from '@/themes';
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -9,22 +10,25 @@ import {
   Image,
 } from 'react-native';
 
-type TextWithInputProps = {
+type TextInputMainProps = {
   label: string;
   isShowPassword: boolean;
   onChangeText: (text: string) => void;
   togglePasswordVisibility?: () => void;
 };
 
-const TextWithInput = ({
+const TextInputMain = ({
   label,
   isShowPassword,
   onChangeText,
   togglePasswordVisibility = () => {},
-}: TextWithInputProps): JSX.Element => {
-  const [isVisible, setIsVisible] = useState(true);
+}: TextInputMainProps): JSX.Element => {
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
-  const handleTogglePasswordVisibility = () => {
+  const isPasswordOrConfirmPassword =
+    label === 'Password' || label === 'Confirm Password';
+
+  const handleTogglePasswordVisibility = (): void => {
     togglePasswordVisibility();
     setIsVisible(!isVisible);
   };
@@ -35,15 +39,11 @@ const TextWithInput = ({
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          secureTextEntry={
-            label === 'Password' || label === 'Confirm Password'
-              ? isVisible
-              : false
-          }
+          secureTextEntry={isPasswordOrConfirmPassword ? isVisible : false}
           onChangeText={onChangeText}
         />
 
-        {label === 'Password' || label === 'Confirm Password' ? (
+        {isPasswordOrConfirmPassword ? (
           <TouchableOpacity
             onPress={handleTogglePasswordVisibility}
             style={styles.eyeIcon}>
@@ -62,31 +62,33 @@ const TextWithInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
-    marginLeft: 20,
+    marginBottom: spacing.md,
+    marginLeft: spacing.lg,
   },
   label: {
     fontSize: 14,
-    marginBottom: 4,
+    marginBottom: spacing.xxs,
+    color: colors.grey_2,
+    fontFamily: 'NunitoSans',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#ccc',
+    borderColor: colors.gray_5,
     borderBottomWidth: 1,
   },
   input: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: spacing.sm,
   },
   eyeIcon: {
-    padding: 10,
+    padding: spacing.sm,
   },
   icon: {
-    width: 20,
-    height: 20,
-    marginRight: 20,
+    width: spacing.md,
+    height: spacing.md,
+    marginRight: spacing.lg,
   },
 });
 
-export default TextWithInput;
+export default TextInputMain;

@@ -1,20 +1,43 @@
-export {default as ic_add} from './ic_add.png';
-export {default as ic_back} from './ic_back.png';
-export {default as ic_bag} from './ic_bag.png';
-export {default as ic_bagTwo} from './ic_bagTwo.png';
-export {default as ic_clock} from './ic_clock.png';
-export {default as ic_down_arrow} from './ic_down_arrow.png';
-export {default as ic_edit} from './ic_edit.png';
-export {default as ic_eye} from './ic_eye.png';
-export {default as ic_favorites} from './ic_favorites.png';
-export {default as ic_home} from './ic_home.png';
-export {default as ic_next} from './ic_next.png';
-export {default as ic_notification} from './ic_notification.png';
-export {default as ic_save} from './ic_save.png';
-export {default as ic_search} from './ic_search.png';
-export {default as ic_shopping_cart} from './ic_shopping_cart.png';
-export {default as ic_sofa} from './ic_sofa.png';
-export {default as ic_trash} from './ic_trash.png';
-export {default as ic_user} from './ic_user.png';
-export {default as ic_eye_hide} from './ic_eye_hide.png';
-export {default as ic_exit} from './ic_exit.png';
+import ic_add from '@/assets/icons/ic_add.png';
+import ic_back from '@/assets/icons/ic_back.png';
+import ic_bag from '@/assets/icons/ic_bag.png';
+import ic_bagTwo from '@/assets/icons/ic_bagTwo.png';
+import ic_clock from '@/assets/icons/ic_clock.png';
+import ic_down_arrow from '@/assets/icons/ic_down_arrow.png';
+import ic_edit from '@/assets/icons/ic_edit.png';
+import ic_eye from '@/assets/icons/ic_eye.png';
+import ic_favorites from '@/assets/icons/ic_favorites.png';
+import ic_home from '@/assets/icons/ic_home.png';
+import ic_next from '@/assets/icons/ic_next.png';
+import ic_notification from '@/assets/icons/ic_notification.png';
+import ic_save from '@/assets/icons/ic_save.png';
+import ic_search from '@/assets/icons/ic_search.png';
+import ic_shopping_cart from '@/assets/icons/ic_shopping_cart.png';
+import ic_sofa from '@/assets/icons/ic_sofa.png';
+import ic_trash from '@/assets/icons/ic_trash.png';
+import ic_user from '@/assets/icons/ic_user.png';
+import ic_eye_hide from '@/assets/icons/ic_eye_hide.png';
+import ic_exit from '@/assets/icons/ic_exit.png';
+
+export {
+  ic_add,
+  ic_back,
+  ic_bag,
+  ic_bagTwo,
+  ic_clock,
+  ic_down_arrow,
+  ic_edit,
+  ic_eye,
+  ic_favorites,
+  ic_home,
+  ic_next,
+  ic_notification,
+  ic_save,
+  ic_search,
+  ic_shopping_cart,
+  ic_sofa,
+  ic_trash,
+  ic_user,
+  ic_eye_hide,
+  ic_exit,
+};

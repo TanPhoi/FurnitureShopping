@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
 
-const useStatusBarEffect = () => {
+const useStatusBarEffect = (): void => {
   const isFocused = useIsFocused();
 
   useEffect(() => {

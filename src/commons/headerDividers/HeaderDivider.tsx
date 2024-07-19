@@ -1,3 +1,4 @@
+import {ic_sofa} from '@/assets/icons';
 import React, {JSX} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 
@@ -6,10 +7,7 @@ const HeaderDivider = (): JSX.Element => {
     <View style={styles.header}>
       <View style={styles.divider}></View>
       <View>
-        <Image
-          style={styles.icon}
-          source={require('../../assets/icons/ic_sofa.png')}
-        />
+        <Image style={styles.icon} source={ic_sofa} />
       </View>
       <View style={styles.divider}></View>
     </View>

@@ -1,17 +1,18 @@
+import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import React, {JSX} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-type CustomButtonProps = {
+type ButtonMainProps = {
   title: string;
   onPress: () => void;
   disabled?: boolean;
 };
-const CustomButton = ({
+const ButtonMain = ({
   title,
   onPress,
   disabled,
-}: CustomButtonProps): JSX.Element => {
+}: ButtonMainProps): JSX.Element => {
   return (
     <TouchableOpacity
       style={styles.container}
@@ -26,20 +27,25 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.button,
-    paddingVertical: 14,
-    borderRadius: 6,
-    marginHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.md,
+    borderRadius: spacing.sm,
+    marginHorizontal: spacing.lg,
+    shadowColor: colors.shadow,
+    shadowOffset: {width: 0, height: spacing.xs},
     shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowRadius: spacing.xs,
     elevation: 4,
   },
   txt: {
-    color: colors.textButton,
-    fontSize: 16,
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: '600',
+    fontFamily: 'NunitoSans',
+  },
+  disabled: {
+    opacity: 0.5,
   },
 });
 
-export default CustomButton;
+export default ButtonMain;

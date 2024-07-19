@@ -8,33 +8,36 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {colors} from '@/themes/colors';
-import useStatusBarEffect from '@/hook/useStatusBarEffect';
-import {commonStyles} from '@/utils/styles';
-import {RootStackParamsList} from '@/routers/AppNavigation';
+import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
+import {useStatusBarEffect} from '@/hooks';
+import {img_background_boarding} from '@/assets/images';
+import {spacing} from '@/themes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type BoardingProps = {
-  navigation: NativeStackNavigationProp<RootStackParamsList, 'Boarding'>;
+  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Boarding'>;
 };
 
 const Boarding = ({navigation}: BoardingProps): JSX.Element => {
   useStatusBarEffect();
 
-  const handleNavigateToLogin = () => {
-    navigation.navigate('Login');
+  const handleNavigateToLogin = async (): Promise<void> => {
+    try {
+      await AsyncStorage.setItem('hasSeenBoarding', 'true');
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Failed to save data to AsyncStorage:', error);
+    }
   };
 
   return (
     <ImageBackground
-      source={require('../../assets/images/img_background_boarding.png')}
+      source={img_background_boarding}
       style={styles.backgroundImage}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={[commonStyles.txtHeader, styles.txtMakeYour]}>
-            MAKE YOUR
-          </Text>
-          <Text style={[commonStyles.txtHeader, styles.txtHomeBeautiful]}>
-            HOME BEAUTIFUL
-          </Text>
+          <Text style={styles.txtMakeYour}>MAKE YOUR</Text>
+          <Text style={styles.txtHomeBeautiful}>HOME BEAUTIFUL</Text>
           <Text style={styles.txtContent}>
             The best simple place where you{'\n'}
             discover most wonderful furnitures{'\n'}
@@ -58,31 +61,34 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    padding: 20,
+    padding: spacing.lg,
     justifyContent: 'space-around',
   },
 
   titleContainer: {
-    marginTop: 40,
-  },
-  title: {
-    fontSize: 38,
-    fontWeight: 'bold',
+    marginTop: spacing.xl,
   },
   txtMakeYour: {
-    color: colors.text,
+    color: colors.black_3,
+    fontFamily: 'Gelasio',
+    fontSize: 24,
+    fontWeight: '600',
+    letterSpacing: 1.2,
   },
   txtHomeBeautiful: {
-    marginTop: 10,
-    color: colors.textTitle,
+    marginTop: spacing.sm,
+    color: colors.black_font,
+    fontSize: 30,
+    fontWeight: '700',
   },
   txtContent: {
-    marginTop: 40,
-    fontSize: 16,
-    color: colors.text,
+    marginTop: spacing.md,
+    fontSize: 18,
+    color: colors.grey,
     alignSelf: 'flex-end',
-    lineHeight: 24,
-    letterSpacing: 1.4,
+    fontFamily: 'NunitoSans',
+    lineHeight: 35,
+    textAlign: 'justify',
   },
 
   viewButton: {
@@ -90,8 +96,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.button,
-    paddingVertical: 14,
-    paddingHorizontal: 38,
+    width: 159,
+    height: 54,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -99,9 +105,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   txtButton: {
-    color: colors.textButton,
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: '600',
+    fontFamily: 'Gelasio',
   },
 });
 

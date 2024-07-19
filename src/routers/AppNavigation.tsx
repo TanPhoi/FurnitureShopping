@@ -1,29 +1,35 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {JSX} from 'react';
-import {Boarding, Login, Register} from '@/screens';
-import TabNavigation from '@/routers/TabNavigation';
+import React, {JSX, useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthStackNavigator from './AuthStackNavigator';
+import MainStackNavigator from './MainStackNavigator';
 
-export type RootStackParamsList = {
-  Boarding: undefined;
-  Login: undefined;
-  Register: undefined;
-  TabNavigation: undefined;
+type User = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamsList>();
 const AppNavigation = (): JSX.Element => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem('loggedInUser')
+      .then(userData => {
+        if (userData) {
+          const parsedUserData: User = JSON.parse(userData);
+          setUser(parsedUserData);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching user data:', err);
+      });
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Boarding" component={Boarding} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="TabNavigation" component={TabNavigation} />
-      </Stack.Navigator>
+      {!user ? <AuthStackNavigator /> : <MainStackNavigator />}
     </NavigationContainer>
   );
 };

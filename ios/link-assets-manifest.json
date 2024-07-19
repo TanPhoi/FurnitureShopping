@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/themes/fonts/Gelasio.ttf",
+      "sha1": "f93d930f5fc400c2a479ed85a93327a93618d24c"
+    },
+    {
+      "path": "src/themes/fonts/Merriweather.ttf",
+      "sha1": "f4e7810e4e20d1932d3d7994bb6f6456280ee6bd"
+    },
+    {
+      "path": "src/themes/fonts/NunitoSans.ttf",
+      "sha1": "0bc82dfdb6c913d99eedb88d55e5d61b33ecd210"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import React, {JSX} from 'react';
 import {Favorites, Home, Notification, Profile} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image, ImageSourcePropType} from 'react-native';
-import {ic_home, ic_save, ic_notification, ic_user} from '@/assets/icons/index';
+import {ic_home, ic_notification, ic_save, ic_user} from '@/assets/icons';
 const Tab = createBottomTabNavigator();
 
 const icons: Record<string, ImageSourcePropType> = {
@@ -32,6 +32,11 @@ const TabNavigation = (): JSX.Element => {
         },
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarStyle: {
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
       })}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favorites" component={Favorites} />
