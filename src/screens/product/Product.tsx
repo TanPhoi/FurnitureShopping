@@ -1,13 +1,15 @@
 import {ic_add, ic_back, ic_favorites, ic_star} from '@/assets/icons';
 import {ButtonMain} from '@/commons';
-import {RootMainStackParamsList} from '@/routers/MainStackNavigator';
+import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
+  ImageSourcePropType,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,28 +17,145 @@ import {
   View,
 } from 'react-native';
 
-type ProductProps = {
-  navigation: NativeStackNavigationProp<RootMainStackParamsList, 'Product'>;
-  route: RouteProp<RootMainStackParamsList, 'Product'>;
+type CategoryProduct = {
+  id: number;
+  image: ImageSourcePropType;
+  label: string;
+  price: number;
+  rate: number;
+  review: number;
+  desc: string;
+  quantity: number;
 };
+
+type ProductProps = {
+  navigation: NativeStackNavigationProp<RootStackParamsList, 'Product'>;
+  route: RouteProp<RootStackParamsList, 'Product'>;
+};
+
 const Product = ({navigation, route}: ProductProps): JSX.Element => {
   const {id, image, label, price, rate, review, desc} = route.params;
-  const [count, setCount] = useState<number>(1);
-  const numSre = count <= 9 ? '0' : '';
-  const handleMoreProduct = () => {
-    setCount(count + 1);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
+  const numSre = quantity <= 9 ? '0' : '';
+
+  useEffect(() => {
+    const checkIfFavorite = async (): Promise<void> => {
+      try {
+        const favoriteData = await AsyncStorage.getItem('favorites');
+        let favorites = [];
+
+        if (favoriteData) {
+          try {
+            favorites = JSON.parse(favoriteData);
+            if (!Array.isArray(favorites)) {
+              favorites = [];
+            }
+          } catch (error) {
+            console.error('Error parsing favorites data:', error);
+            favorites = [];
+          }
+        }
+
+        const isAlreadyFavorite = favorites.some(
+          (item: CategoryProduct) => item.id === id,
+        );
+
+        setIsFavorite(isAlreadyFavorite);
+      } catch (error) {
+        console.error('Error fetching data from AsyncStorage:', error);
+      }
+    };
+
+    checkIfFavorite();
+  }, [id]);
+
+  const handleMoreProduct = (): void => {
+    setQuantity(quantity + 1);
   };
-  const handleLessProduct = () => {
-    if (count > 0) {
-      setCount(count - 1);
+
+  const handleLessProduct = (): void => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleBack = (): void => {
+    navigation.goBack();
+  };
+
+  const handleAddToCart = async (): Promise<void> => {
+    try {
+      const newProduct: CategoryProduct = {
+        id,
+        image,
+        label,
+        price,
+        rate,
+        review,
+        desc,
+        quantity,
+      };
+      await AsyncStorage.setItem('myCart', JSON.stringify([newProduct]));
+      navigation.navigate('MyCart');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFavorites = async (): Promise<void> => {
+    try {
+      const storedData = await AsyncStorage.getItem('categoryProductData');
+      if (storedData !== null) {
+        let categoryProductData = JSON.parse(storedData);
+
+        const itemToFavorite = categoryProductData.find(
+          (item: CategoryProduct) => item.id === id,
+        );
+
+        if (itemToFavorite) {
+          const favoriteData = await AsyncStorage.getItem('favorites');
+          let favorites = [];
+
+          if (favoriteData) {
+            try {
+              favorites = JSON.parse(favoriteData);
+              if (!Array.isArray(favorites)) {
+                favorites = [];
+              }
+            } catch (error) {
+              console.error('Error parsing favorites data:', error);
+              favorites = [];
+            }
+          }
+
+          const isAlreadyFavorite = favorites.some(
+            (item: CategoryProduct) => item.id === id,
+          );
+
+          if (isAlreadyFavorite) {
+            favorites = favorites.filter(
+              (item: CategoryProduct) => item.id !== id,
+            );
+            setIsFavorite(false);
+          } else {
+            favorites.push(itemToFavorite);
+            setIsFavorite(true);
+          }
+
+          await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+      }
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
     }
   };
 
   return (
     <View style={styles.root}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.boxTop}>
-          <TouchableOpacity style={styles.boxIcBack}>
+          <TouchableOpacity style={styles.boxIcBack} onPress={handleBack}>
             <Image style={styles.iconBack} source={ic_back} />
           </TouchableOpacity>
 
@@ -70,7 +189,7 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
 
               <Text style={styles.txtNumber}>
                 {numSre}
-                {count}
+                {quantity}
               </Text>
 
               <TouchableOpacity
@@ -96,17 +215,23 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.boxIcFavorites}>
-          <Image style={styles.iconFavorites} source={ic_favorites} />
+        <TouchableOpacity
+          style={[
+            styles.boxIcFavorites,
+            isFavorite && {backgroundColor: colors.primary},
+          ]}
+          onPress={handleFavorites}>
+          <Image
+            style={[
+              styles.iconFavorites,
+              isFavorite && {tintColor: colors.white},
+            ]}
+            source={ic_favorites}
+          />
         </TouchableOpacity>
 
         <View style={styles.boxButton}>
-          <ButtonMain
-            title={'Add to cart'}
-            onPress={function (): void {
-              throw new Error('Function not implemented.');
-            }}
-          />
+          <ButtonMain title={'Add to cart'} onPress={handleAddToCart} />
         </View>
       </View>
     </View>
@@ -304,6 +429,7 @@ const styles = StyleSheet.create({
   boxIcFavorites: {
     padding: spacing.lg,
     backgroundColor: colors.secondary_button_gb,
+    borderRadius: 10,
   },
   iconFavorites: {
     width: 20,

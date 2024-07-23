@@ -24,6 +24,7 @@ import ic_table from '@/assets/icons/ic_table.png';
 import ic_armchair from '@/assets/icons/ic_armchair.png';
 import ic_bed from '@/assets/icons/ic_bed.png';
 import ic_lamp from '@/assets/icons/ic_lamp.png';
+import ic_delete from '@/assets/icons/ic_delete.png';
 
 export {
   ic_add,
@@ -52,4 +53,5 @@ export {
   ic_armchair,
   ic_bed,
   ic_lamp,
+  ic_delete,
 };

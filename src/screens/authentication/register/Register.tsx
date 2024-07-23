@@ -1,12 +1,11 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
-import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
+import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {JSX, useState} from 'react';
 import {
-  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,7 +21,7 @@ type User = {
 };
 
 type RegisterProps = {
-  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Register'>;
+  navigation: NativeStackNavigationProp<RootStackParamsList, 'Register'>;
 };
 
 const Register = ({navigation}: RegisterProps): JSX.Element => {
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
 
   button: {
     marginTop: spacing.md,
+    marginHorizontal: spacing.lg,
   },
 
   signUpContainer: {

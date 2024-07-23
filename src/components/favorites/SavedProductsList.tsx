@@ -1,4 +1,4 @@
-import {ic_bag} from '@/assets/icons';
+import {ic_bag, ic_bagTwo, ic_delete, ic_exit} from '@/assets/icons';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import React, {JSX} from 'react';
@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 
-type CategoryProduct = {
+type SavedProduct = {
   id: number;
   image: ImageSourcePropType;
   label: string;
@@ -23,8 +23,8 @@ type CategoryProduct = {
   quantity: number;
 };
 
-type CategoryProductListProps = {
-  categoryProductsList: CategoryProduct[];
+type SavedProductsListProps = {
+  savedProductsList: SavedProduct[];
   onPress: (
     id: number,
     image: ImageSourcePropType,
@@ -35,12 +35,14 @@ type CategoryProductListProps = {
     desc: string,
     quantity: number,
   ) => void;
+  onPressDelete: (id: number) => void;
 };
 
-const CategoryProductList = ({
-  categoryProductsList,
+const SavedProductsList = ({
+  savedProductsList,
   onPress,
-}: CategoryProductListProps): JSX.Element => {
+  onPressDelete,
+}: SavedProductsListProps): JSX.Element => {
   const RenderItem = ({
     id,
     image,
@@ -50,28 +52,38 @@ const CategoryProductList = ({
     review,
     desc,
     quantity,
-  }: CategoryProduct) => (
+  }: SavedProduct) => (
     <TouchableOpacity
-      style={styles.boxItem}
+      style={styles.itemContainer}
       onPress={() =>
         onPress(id, image, label, price, rate, review, desc, quantity)
       }>
-      <View>
+      <View style={styles.boxLeft}>
         <Image style={styles.image} source={image} />
-        <Image style={styles.icon} source={ic_bag} />
+
+        <View>
+          <Text style={styles.txtLabel}>{label}</Text>
+          <Text style={styles.txtPrice}>{`$ ${price}.00`}</Text>
+        </View>
       </View>
-      <Text style={styles.txtLabel}>{label}</Text>
-      <Text style={styles.txtPrice}>{`$ ${price}.00`}</Text>
+
+      <View style={styles.boxRight}>
+        <TouchableOpacity onPress={() => onPressDelete(id)}>
+          <Image style={styles.icon} source={ic_delete} />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Image style={styles.icon} source={ic_bag} />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
   return (
     <FlatList
-      data={categoryProductsList}
+      data={savedProductsList}
       renderItem={({item}) => <RenderItem {...item} />}
       showsVerticalScrollIndicator={false}
-      numColumns={2}
       contentContainerStyle={styles.flatStyle}
-      columnWrapperStyle={styles.row}
     />
   );
 };
@@ -84,35 +96,43 @@ const styles = StyleSheet.create({
   row: {
     columnGap: spacing.lg,
   },
-  boxItem: {
+  itemContainer: {
     flex: 1,
-    marginBottom: spacing.md,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: colors.blur_grey,
+    paddingBottom: 12,
+  },
+  boxLeft: {
+    flexDirection: 'row',
+    columnGap: 20,
   },
   image: {
-    width: '100%',
-    height: 200,
+    width: 100,
+    height: 100,
     resizeMode: 'cover',
     borderRadius: spacing.sm,
   },
-  icon: {
-    width: 20,
-    height: 20,
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  },
   txtLabel: {
-    marginTop: spacing.sm,
     color: colors.black_3,
     fontFamily: 'NunitoSans',
+    fontWeight: '600',
   },
   txtPrice: {
-    marginTop: spacing.xs,
-    fontSize: 14,
     color: colors.black_font,
-    fontWeight: '700',
     fontFamily: 'NunitoSans',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+
+  boxRight: {
+    justifyContent: 'space-between',
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });
 
-export default CategoryProductList;
+export default SavedProductsList;

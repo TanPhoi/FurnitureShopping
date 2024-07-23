@@ -8,26 +8,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {colors} from '@/themes/colors';
-import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
 import {useStatusBarEffect} from '@/hooks';
 import {img_background_boarding} from '@/assets/images';
 import {spacing} from '@/themes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RootStackParamsList} from '@/routers/AppNavigation';
 
 type BoardingProps = {
-  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Boarding'>;
+  navigation: NativeStackNavigationProp<RootStackParamsList, 'Boarding'>;
 };
 
 const Boarding = ({navigation}: BoardingProps): JSX.Element => {
   useStatusBarEffect();
 
-  const handleNavigateToLogin = async (): Promise<void> => {
-    try {
-      await AsyncStorage.setItem('hasSeenBoarding', 'true');
-      navigation.navigate('Login');
-    } catch (error) {
-      console.error('Failed to save data to AsyncStorage:', error);
-    }
+  const handleNavigateToLogin = (): void => {
+    navigation.navigate('Login');
   };
 
   return (

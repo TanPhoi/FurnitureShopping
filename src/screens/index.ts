@@ -6,6 +6,7 @@ import Favorites from '@/screens/favorites/Favorites';
 import Notification from '@/screens/notification/Notification';
 import Profile from '@/screens/profile/Profile';
 import Product from '@/screens/product/Product';
+import MyCart from '@/screens/myCart/MyCart';
 
 export {
   Boarding,
@@ -16,4 +17,5 @@ export {
   Notification,
   Profile,
   Product,
+  MyCart,
 };

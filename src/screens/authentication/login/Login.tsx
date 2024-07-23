@@ -1,5 +1,5 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
-import {RootAuthStackParamsList} from '@/routers/AuthStackNavigator';
+import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
@@ -8,7 +8,7 @@ import React, {JSX, useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type LoginProps = {
-  navigation: NativeStackNavigationProp<RootAuthStackParamsList, 'Login'>;
+  navigation: NativeStackNavigationProp<RootStackParamsList, 'Login'>;
 };
 
 type User = {
@@ -46,15 +46,10 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
             JSON.stringify(parsedUserData),
           );
 
-          await AsyncStorage.setItem(
-            'loggedInUser',
-            JSON.stringify(parsedUserData),
-          );
-
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{name: 'MainStackNavigator'}],
+              routes: [{name: 'MainNavigator'}],
             }),
           );
         } else {
@@ -164,7 +159,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  button: {marginTop: spacing.md},
+  button: {
+    marginTop: spacing.md,
+    marginHorizontal: spacing.lg,
+  },
 
   tcbSignUp: {
     marginTop: spacing.md,

@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import AppNavigation from './src/routers/AppNavigation';
-import AuthStackNavigator from '@/routers/AuthStackNavigator';
+import AppNavigation from '@/routers/AppNavigation';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
