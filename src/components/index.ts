@@ -1,6 +1,6 @@
-import CategoryProductList from '@/components/home/CategoryProductList';
+import ProductListHome from '@/components/home/ProductList';
 import PopularList from '@/components/home/PopularList';
-import SavedProductsList from '@/components/favorites/SavedProductsList';
-import BuyProductList from '@/components/myCarts/BuyProductList';
+import FavoriteProductsList from '@/components/favorites/FavoriteProductsList';
+import ProductListMyCart from '@/components/myCarts/ProductList';
 
-export {CategoryProductList, PopularList, SavedProductsList, BuyProductList};
+export {ProductListHome, PopularList, FavoriteProductsList, ProductListMyCart};

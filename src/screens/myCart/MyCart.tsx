@@ -1,14 +1,12 @@
 import {ic_next} from '@/assets/icons';
-import {ButtonMain} from '@/commons';
-import TabBarMain from '@/commons/tabBars/TabBarMain';
-import BuyProductList from '@/components/myCarts/BuyProductList';
+import {ButtonMain, HeaderMain} from '@/commons';
+import ProductListMyCart from '@/components/myCarts/ProductList';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {JSX, useEffect, useState} from 'react';
+import React, {JSX, useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TextInput,
@@ -16,16 +14,8 @@ import {
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-type Product = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
-};
+import {Product} from '@/model/production.model';
+import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;
@@ -33,16 +23,13 @@ type MyCartProps = {
 
 const MyCart = ({navigation}: MyCartProps): JSX.Element => {
   const [productList, setProductList] = useState<Product[]>([]);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
   useEffect(() => {
     const getData = async (): Promise<void> => {
       try {
-        const jsonValue = await AsyncStorage.getItem('myCart');
+        const jsonValue = await getDataLocalStorage<Product[]>('myCart');
 
-        if (jsonValue !== null) {
-          const products = JSON.parse(jsonValue);
-          setProductList(products);
-          calculateTotalPrice(products);
+        if (jsonValue) {
+          setProductList(jsonValue);
         }
       } catch (error) {
         console.error(error);
@@ -51,40 +38,43 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
     getData();
   }, []);
 
-  const calculateTotalPrice = (products: Product[]): void => {
-    const total = products.reduce(
+  const totalPrice = useMemo(() => {
+    return productList.reduce(
       (sum, product) => sum + product.price * product.quantity,
       0,
     );
-    setTotalPrice(total);
-  };
+  }, [productList]);
 
-  const handleQuantityChange = (id: number, newQuantity: number): void => {
-    const updatedProducts = productList.map((product: Product) => {
-      if (product.id === id) {
-        return {...product, quantity: newQuantity};
+  const handleQuantityChange = useCallback(
+    (id: number, newQuantity: number): void => {
+      const updatedProducts = productList.map((product: Product) => {
+        if (product.id === id) {
+          return {...product, quantity: newQuantity};
+        }
+        return product;
+      });
+
+      setProductList(updatedProducts);
+    },
+    [productList],
+  );
+
+  const handleDeleteItem = useCallback(
+    async (id: number): Promise<void> => {
+      const updateProducts = productList.filter(product => product.id !== id);
+      setProductList(updateProducts);
+
+      try {
+        setDataLocalStorage('myCart', updateProducts);
+      } catch (err) {
+        console.error('Failed to update AsyncStorage:', err);
       }
-      return product;
-    });
-
-    setProductList(updatedProducts);
-    calculateTotalPrice(updatedProducts);
-  };
-
-  const handleDeleteItem = async (id: number): Promise<void> => {
-    const updateProducts = productList.filter(product => product.id !== id);
-    setProductList(updateProducts);
-
-    calculateTotalPrice(updateProducts);
-
-    try {
-      await AsyncStorage.setItem('myCart', JSON.stringify(updateProducts));
-    } catch (err) {
-      console.error('Failed to update AsyncStorage:', err);
-    }
-  };
+    },
+    [productList],
+  );
 
   const handleMyCard = (): void => {};
+
   const handleBack = (): void => {
     navigation.goBack();
   };
@@ -92,7 +82,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
   return (
     <View style={styles.root}>
       <View>
-        <TabBarMain title={'My cart'} onPress={handleBack} />
+        <HeaderMain title={'My cart'} onPress={handleBack} />
       </View>
 
       <View
@@ -101,17 +91,9 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
           flex: 1,
         }}>
         <View style={styles.savedProductsContainer}>
-          <BuyProductList
-            buyProductList={productList}
-            onPress={function (
-              id: number,
-              image: ImageSourcePropType,
-              label: string,
-              price: number,
-              rate: number,
-              review: number,
-              desc: string,
-            ): void {
+          <ProductListMyCart
+            productList={productList}
+            onPress={function (product: Product): void {
               throw new Error('Function not implemented.');
             }}
             onQuantityChange={handleQuantityChange}

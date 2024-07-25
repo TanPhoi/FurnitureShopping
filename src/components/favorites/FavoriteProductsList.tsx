@@ -1,74 +1,43 @@
-import {ic_bag, ic_bagTwo, ic_delete, ic_exit} from '@/assets/icons';
+import {ic_bag, ic_delete} from '@/assets/icons';
+import {Product} from '@/model/production.model';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
-import React, {JSX} from 'react';
+import React, {JSX, memo} from 'react';
 import {
   FlatList,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-type SavedProduct = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
-};
-
-type SavedProductsListProps = {
-  savedProductsList: SavedProduct[];
-  onPress: (
-    id: number,
-    image: ImageSourcePropType,
-    label: string,
-    price: number,
-    rate: number,
-    review: number,
-    desc: string,
-    quantity: number,
-  ) => void;
+type FavoriteProductsListProps = {
+  favoriteProductsList: Product[];
+  onPress: (product: Product) => void;
   onPressDelete: (id: number) => void;
 };
 
-const SavedProductsList = ({
-  savedProductsList,
+const FavoriteProductsList = ({
+  favoriteProductsList,
   onPress,
   onPressDelete,
-}: SavedProductsListProps): JSX.Element => {
-  const RenderItem = ({
-    id,
-    image,
-    label,
-    price,
-    rate,
-    review,
-    desc,
-    quantity,
-  }: SavedProduct) => (
+}: FavoriteProductsListProps): JSX.Element => {
+  const RenderItem = (product: Product) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() =>
-        onPress(id, image, label, price, rate, review, desc, quantity)
-      }>
+      onPress={() => onPress(product)}>
       <View style={styles.boxLeft}>
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={product.image} />
 
         <View>
-          <Text style={styles.txtLabel}>{label}</Text>
-          <Text style={styles.txtPrice}>{`$ ${price}.00`}</Text>
+          <Text style={styles.txtLabel}>{product.label}</Text>
+          <Text style={styles.txtPrice}>{`$ ${product.price}.00`}</Text>
         </View>
       </View>
 
       <View style={styles.boxRight}>
-        <TouchableOpacity onPress={() => onPressDelete(id)}>
+        <TouchableOpacity onPress={() => onPressDelete(product.id)}>
           <Image style={styles.icon} source={ic_delete} />
         </TouchableOpacity>
 
@@ -80,7 +49,7 @@ const SavedProductsList = ({
   );
   return (
     <FlatList
-      data={savedProductsList}
+      data={favoriteProductsList}
       renderItem={({item}) => <RenderItem {...item} />}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.flatStyle}
@@ -135,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SavedProductsList;
+export default memo(FavoriteProductsList);

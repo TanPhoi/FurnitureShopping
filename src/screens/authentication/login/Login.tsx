@@ -1,6 +1,8 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
+import {getDataLocalStorage} from '@/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -9,13 +11,6 @@ import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type LoginProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'Login'>;
-};
-
-type User = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
 };
 
 const Login = ({navigation}: LoginProps): JSX.Element => {
@@ -34,17 +29,10 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
     }
 
     try {
-      const userData = await AsyncStorage.getItem('user');
-      if (userData !== null) {
-        const parsedUserData: User = JSON.parse(userData);
-        if (
-          parsedUserData.email === email &&
-          parsedUserData.password === password
-        ) {
-          await AsyncStorage.setItem(
-            'loggedInUser',
-            JSON.stringify(parsedUserData),
-          );
+      const userData = await getDataLocalStorage<User>('user');
+      if (userData) {
+        if (userData.email === email && userData.password === password) {
+          await AsyncStorage.setItem('loggedInUser', JSON.stringify(userData));
 
           navigation.dispatch(
             CommonActions.reset({

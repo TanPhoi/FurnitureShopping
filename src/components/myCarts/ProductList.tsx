@@ -1,86 +1,66 @@
 import {ic_add, ic_delete} from '@/assets/icons';
+import {Product} from '@/model/production.model';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
-import React, {JSX} from 'react';
+import {functionFormat} from '@/utils';
+import React, {JSX, memo} from 'react';
 import {
   FlatList,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-type BuyProduct = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
-};
-
-type BuyProductListProps = {
-  buyProductList: BuyProduct[];
-  onPress: (
-    id: number,
-    image: ImageSourcePropType,
-    label: string,
-    price: number,
-    rate: number,
-    review: number,
-    desc: string,
-  ) => void;
+type ProductListProps = {
+  productList: Product[];
+  onPress: (product: Product) => void;
   onQuantityChange: (id: number, newQuantity: number) => void;
   onDeleteItem: (id: number) => void;
 };
 
-const BuyProductList = ({
-  buyProductList,
+const ProductList = ({
+  productList,
   onQuantityChange,
   onDeleteItem,
-}: BuyProductListProps): JSX.Element => {
-  const RenderItem = ({
-    id,
-    image,
-    label,
-    price,
-    rate,
-    review,
-    desc,
-    quantity,
-  }: BuyProduct) => {
-    const numSre = quantity <= 9 ? '0' : '';
+}: ProductListProps): JSX.Element => {
+  const RenderItem = (product: Product) => {
+    const numStr = functionFormat(product.quantity);
     return (
       <TouchableOpacity style={styles.itemContainer}>
         <View style={styles.boxLeft}>
-          <Image style={styles.image} source={image} />
+          <Image style={styles.image} source={product.image} />
 
           <View style={styles.centerContainer}>
             <View>
-              <Text style={styles.txtLabel}>{label}</Text>
-              <Text style={styles.txtPrice}>{`$ ${price}.00`}</Text>
+              <Text style={styles.txtLabel}>{product.label}</Text>
+              <Text style={styles.txtPrice}>
+                {`$ ${product.price.toFixed(2)}`}
+              </Text>
             </View>
 
             <View style={styles.moreLessContainer}>
               <TouchableOpacity
                 style={styles.boxMoreLess}
-                onPress={() => onQuantityChange(id, quantity + 1)}>
+                onPress={() =>
+                  onQuantityChange(product.id, product.quantity + 1)
+                }>
                 <Image style={styles.iconMore} source={ic_add} />
               </TouchableOpacity>
 
               <Text style={styles.txtNumber}>
-                {numSre}
-                {quantity}
+                {numStr}
+                {product.quantity}
               </Text>
 
               <TouchableOpacity
                 style={styles.boxMoreLess}
                 onPress={() =>
-                  onQuantityChange(id, quantity > 1 ? quantity - 1 : 1)
+                  onQuantityChange(
+                    product.id,
+                    product.quantity > 1 ? product.quantity - 1 : 1,
+                  )
                 }>
                 <View style={styles.iconLess}></View>
               </TouchableOpacity>
@@ -88,7 +68,7 @@ const BuyProductList = ({
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => onDeleteItem(id)}>
+        <TouchableOpacity onPress={() => onDeleteItem(product.id)}>
           <Image style={styles.icon} source={ic_delete} />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -97,7 +77,7 @@ const BuyProductList = ({
 
   return (
     <FlatList
-      data={buyProductList}
+      data={productList}
       renderItem={({item}) => <RenderItem {...item} />}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.flatStyle}
@@ -181,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BuyProductList;
+export default memo(ProductList);

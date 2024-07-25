@@ -1,158 +1,46 @@
 import {ic_search, ic_shopping_cart, ic_star} from '@/assets/icons';
-import {CategoryProductList, PopularList} from '@/components';
+import {ProductListHome, PopularList} from '@/components';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {
-  img_black_simple_lamp,
-  img_coffee_chair,
-  img_coffee_table,
-  img_minimal_stand,
-  img_simple_desk,
-} from '@/assets/images';
-import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const categoryProductData = [
-  {
-    id: 1,
-    image: img_black_simple_lamp,
-    label: 'Black Simple Lamp',
-    price: 12.0,
-    rate: 4.5,
-    review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
-    quantity: 1,
-  },
-  {
-    id: 2,
-    image: img_minimal_stand,
-    label: 'Minimal Stand',
-    price: 25.0,
-    rate: 4.5,
-    review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
-    quantity: 1,
-  },
-  {
-    id: 3,
-    image: img_coffee_chair,
-    label: 'Coffee Chair',
-    price: 20.0,
-    rate: 4.5,
-    review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
-    quantity: 1,
-  },
-  {
-    id: 4,
-    image: img_simple_desk,
-    label: 'Simple Desk',
-    price: 50.0,
-    rate: 4.5,
-    review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
-    quantity: 1,
-  },
-  {
-    id: 5,
-    image: img_coffee_table,
-    label: 'Coffee Table',
-    price: 50.0,
-    rate: 4.5,
-    review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
-    quantity: 1,
-  },
-];
+import React, {useCallback, useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Product} from '@/model/production.model';
+import {productData} from '@/mock/productData';
+import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 
 type HomeProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
 };
 
 const Home = ({navigation}: HomeProps): JSX.Element => {
-  const [categoryProductList, setCategoryProductList] = useState<[]>([]);
+  const [productList, setProductList] = useState<Product[]>([]);
 
   useEffect(() => {
     const saveData = async (): Promise<void> => {
-      try {
-        await AsyncStorage.setItem(
-          'categoryProductData',
-          JSON.stringify(categoryProductData),
-        );
-      } catch (err) {
-        console.log('Error saving data to AsyncStorage:', err);
-      }
+      setDataLocalStorage('categoryProductData', productData);
     };
-    saveData();
-  }, []);
 
-  useEffect(() => {
     const getData = async (): Promise<void> => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('categoryProductData');
-
-        if (jsonValue != null) {
-          setCategoryProductList(JSON.parse(jsonValue));
-        }
-      } catch (error) {
-        console.error('Error fetching data from AsyncStorage:', error);
+      const data = await getDataLocalStorage<Product[]>('categoryProductData');
+      if (data) {
+        setProductList(data);
       }
     };
 
+    saveData();
     getData();
   }, []);
 
-  const handleClickItem = (
-    id: number,
-    image: ImageSourcePropType,
-    label: string,
-    price: number,
-    rate: number,
-    review: number,
-    desc: string,
-    quantity: number,
-  ): void => {
-    navigation.navigate('Product', {
-      id,
-      image,
-      label,
-      price,
-      rate,
-      review,
-      desc,
-      quantity,
-    });
-  };
+  const handleClickItem = useCallback(
+    (product: Product): void => {
+      navigation.navigate('Product', {
+        product,
+      });
+    },
+    [productList],
+  );
 
   return (
     <View style={styles.root}>
@@ -183,10 +71,7 @@ const Home = ({navigation}: HomeProps): JSX.Element => {
       </View>
 
       <View style={styles.categoryProduct}>
-        <CategoryProductList
-          onPress={handleClickItem}
-          categoryProductsList={categoryProductList}
-        />
+        <ProductListHome onPress={handleClickItem} productsList={productList} />
       </View>
     </View>
   );

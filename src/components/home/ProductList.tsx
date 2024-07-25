@@ -1,72 +1,39 @@
 import {ic_bag} from '@/assets/icons';
+import {Product} from '@/model/production.model';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
-import React, {JSX} from 'react';
+import React, {JSX, memo} from 'react';
 import {
   FlatList,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-type CategoryProduct = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
+type ProductListProps = {
+  productsList: Product[];
+  onPress: (product: Product) => void;
 };
 
-type CategoryProductListProps = {
-  categoryProductsList: CategoryProduct[];
-  onPress: (
-    id: number,
-    image: ImageSourcePropType,
-    label: string,
-    price: number,
-    rate: number,
-    review: number,
-    desc: string,
-    quantity: number,
-  ) => void;
-};
-
-const CategoryProductList = ({
-  categoryProductsList,
+const ProductList = ({
+  productsList,
   onPress,
-}: CategoryProductListProps): JSX.Element => {
-  const RenderItem = ({
-    id,
-    image,
-    label,
-    price,
-    rate,
-    review,
-    desc,
-    quantity,
-  }: CategoryProduct) => (
-    <TouchableOpacity
-      style={styles.boxItem}
-      onPress={() =>
-        onPress(id, image, label, price, rate, review, desc, quantity)
-      }>
+}: ProductListProps): JSX.Element => {
+  const RenderItem = (product: Product) => (
+    <TouchableOpacity style={styles.boxItem} onPress={() => onPress(product)}>
       <View>
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={product.image} />
         <Image style={styles.icon} source={ic_bag} />
       </View>
-      <Text style={styles.txtLabel}>{label}</Text>
-      <Text style={styles.txtPrice}>{`$ ${price}.00`}</Text>
+      <Text style={styles.txtLabel}>{product.label}</Text>
+      <Text style={styles.txtPrice}>{`$ ${product.price.toFixed(2)}`}</Text>
     </TouchableOpacity>
   );
   return (
     <FlatList
-      data={categoryProductsList}
+      data={productsList}
       renderItem={({item}) => <RenderItem {...item} />}
       showsVerticalScrollIndicator={false}
       numColumns={2}
@@ -115,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryProductList;
+export default memo(ProductList);

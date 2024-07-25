@@ -1,44 +1,28 @@
 import {ic_search, ic_shopping_cart} from '@/assets/icons';
 import {ButtonMain} from '@/commons';
-import {SavedProductsList} from '@/components';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {JSX, useState} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {JSX, useCallback, useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
+import {FavoriteProductsList} from '@/components';
+import {Product} from '@/model/production.model';
+import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 
-type Product = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
-};
 type FavoritesProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
 };
 const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
-  const [saveProductList, setSaveProductList] = useState<Product[]>([]);
+  const [favoriteProductList, setFavoriteProductList] = useState<Product[]>([]);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const getData = async (): Promise<void> => {
         try {
-          const valueData = await AsyncStorage.getItem('favorites');
-          if (valueData !== null) {
-            setSaveProductList(JSON.parse(valueData));
+          const valueData = await getDataLocalStorage<Product[]>('favorites');
+          if (valueData) {
+            setFavoriteProductList(valueData);
           }
         } catch (error) {
           console.error('Error fetching data from AsyncStorage:', error);
@@ -51,45 +35,35 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
 
   const handleAddToMyCard = async (): Promise<void> => {
     try {
-      await AsyncStorage.setItem('myCart', JSON.stringify(saveProductList));
+      setDataLocalStorage('myCart', favoriteProductList);
       navigation.navigate('MyCart');
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleDeleteItem = async (id: number): Promise<void> => {
-    const updateProducts = saveProductList.filter(product => product.id !== id);
-    setSaveProductList(updateProducts);
+  const handleDeleteItem = useCallback(
+    async (id: number): Promise<void> => {
+      const updateProducts = favoriteProductList.filter(
+        product => product.id !== id,
+      );
+      setFavoriteProductList(updateProducts);
 
-    try {
-      await AsyncStorage.setItem('favorites', JSON.stringify(updateProducts));
-    } catch (err) {
-      console.error('Failed to update AsyncStorage:', err);
-    }
-  };
+      try {
+        setDataLocalStorage('favorites', updateProducts);
+      } catch (err) {
+        console.error('Failed to update AsyncStorage:', err);
+      }
+    },
+    [favoriteProductList],
+  );
 
-  const handleClickItem = (
-    id: number,
-    image: ImageSourcePropType,
-    label: string,
-    price: number,
-    rate: number,
-    review: number,
-    desc: string,
-    quantity: number,
-  ): void => {
-    navigation.navigate('Product', {
-      id,
-      image,
-      label,
-      price,
-      rate,
-      review,
-      desc,
-      quantity,
-    });
-  };
+  const handleClickItem = useCallback(
+    (product: Product): void => {
+      navigation.navigate('Product', {product});
+    },
+    [favoriteProductList],
+  );
 
   return (
     <View style={styles.root}>
@@ -104,8 +78,8 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
       </View>
 
       <View style={styles.savedProductsContainer}>
-        <SavedProductsList
-          savedProductsList={saveProductList}
+        <FavoriteProductsList
+          favoriteProductsList={favoriteProductList}
           onPress={handleClickItem}
           onPressDelete={handleDeleteItem}
         />

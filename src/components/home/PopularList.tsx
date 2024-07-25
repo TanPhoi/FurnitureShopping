@@ -1,4 +1,5 @@
-import {ic_armchair, ic_bed, ic_chair, ic_lamp, ic_table} from '@/assets/icons';
+import {popularData} from '@/mock/popularData';
+import {Popular} from '@/model/popular.model';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import React, {JSX} from 'react';
@@ -6,40 +7,12 @@ import {
   Dimensions,
   FlatList,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-const popularData = [
-  {
-    image: ic_chair,
-    label: 'Chair',
-  },
-  {
-    image: ic_table,
-    label: 'Table',
-  },
-  {
-    image: ic_armchair,
-    label: 'Armchair',
-  },
-  {
-    image: ic_bed,
-    label: 'Bed',
-  },
-  {
-    image: ic_lamp,
-    label: 'Lamb',
-  },
-];
-
-type Popular = {
-  image: ImageSourcePropType;
-  label: string;
-};
 const screenWidth = Dimensions.get('window').width;
 
 const PopularList = (): JSX.Element => {
@@ -48,10 +21,10 @@ const PopularList = (): JSX.Element => {
       <View style={styles.boxIcon}>
         <Image style={styles.icon} source={image} />
       </View>
-
       <Text style={styles.txtLabel}>{label}</Text>
     </TouchableOpacity>
   );
+
   return (
     <FlatList
       data={popularData}

@@ -1,15 +1,15 @@
-import {ic_back, ic_search, ic_shopping_cart} from '@/assets/icons';
+import {ic_back} from '@/assets/icons';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import React, {JSX} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-type TabBarMainProps = {
+type HeaderMainProps = {
   title: string;
   onPress: () => void;
 };
 
-const TabBarMain = ({title, onPress}: TabBarMainProps): JSX.Element => {
+const HeaderMain = ({title, onPress}: HeaderMainProps): JSX.Element => {
   return (
     <View style={styles.tabBar}>
       <TouchableOpacity onPress={onPress}>
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabBarMain;
+export default HeaderMain;

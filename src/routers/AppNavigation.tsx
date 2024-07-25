@@ -6,6 +6,9 @@ import {View, StyleSheet, ImageSourcePropType} from 'react-native';
 import MainNavigator from '@/routers/MainNavigator';
 import AuthNavigator from '@/routers/AuthNavigator';
 import {colors} from '@/themes';
+import {Product} from '@/model/production.model';
+import {User} from '@/model/user.model';
+import {getDataLocalStorage} from '@/utils';
 
 export type RootStackParamsList = {
   Boarding: undefined;
@@ -14,23 +17,8 @@ export type RootStackParamsList = {
   TabNavigation: undefined;
   MainNavigator: undefined;
   AuthNavigator: undefined;
-  Product: {
-    id: number;
-    image: ImageSourcePropType;
-    label: string;
-    price: number;
-    rate: number;
-    review: number;
-    desc: string;
-    quantity: number;
-  };
+  Product: {product: Product};
   MyCart: undefined;
-};
-type User = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -42,10 +30,10 @@ const AppNavigation = (): JSX.Element => {
   useEffect(() => {
     const fetchUser = async (): Promise<void> => {
       try {
-        const userData = await AsyncStorage.getItem('loggedInUser');
+        const userData = await getDataLocalStorage<User>('loggedInUser');
         if (userData) {
-          const parsedUserData: User = JSON.parse(userData);
-          setUser(parsedUserData);
+          // const parsedUserData: User = JSON.parse(userData);
+          setUser(userData);
         }
       } catch (err) {
         console.error('Error fetching user data:', err);

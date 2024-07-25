@@ -2,9 +2,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Boarding, Login, Register} from '@/screens';
 import {RootStackParamsList} from './AppNavigation';
 import {useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StyleSheet, View} from 'react-native';
 import {colors} from '@/themes';
+import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 
 const AuthStack = createNativeStackNavigator<RootStackParamsList>();
 
@@ -15,10 +15,10 @@ const AuthNavigator = (): JSX.Element => {
   useEffect(() => {
     const checkAppState = async (): Promise<void> => {
       try {
-        const firstLaunch = await AsyncStorage.getItem('isFirstLaunch');
+        const firstLaunch = await getDataLocalStorage('isFirstLaunch');
 
-        if (firstLaunch === null) {
-          await AsyncStorage.setItem('isFirstLaunch', 'true');
+        if (!firstLaunch) {
+          setDataLocalStorage('isFirstLaunch', 'true');
           setIsFirstLaunch(false);
         } else {
           setIsFirstLaunch(true);

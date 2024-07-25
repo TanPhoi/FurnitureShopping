@@ -1,15 +1,19 @@
 import {ic_add, ic_back, ic_favorites, ic_star} from '@/assets/icons';
 import {ButtonMain} from '@/commons';
+import {Product} from '@/model/production.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  functionFormat,
+  getDataLocalStorage,
+  setDataLocalStorage,
+} from '@/utils';
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
-  ImageSourcePropType,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,58 +21,32 @@ import {
   View,
 } from 'react-native';
 
-type CategoryProduct = {
-  id: number;
-  image: ImageSourcePropType;
-  label: string;
-  price: number;
-  rate: number;
-  review: number;
-  desc: string;
-  quantity: number;
-};
-
 type ProductProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'Product'>;
   route: RouteProp<RootStackParamsList, 'Product'>;
 };
 
-const Product = ({navigation, route}: ProductProps): JSX.Element => {
-  const {id, image, label, price, rate, review, desc} = route.params;
+const Products = ({navigation, route}: ProductProps): JSX.Element => {
+  const {product} = route.params;
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
-  const numSre = quantity <= 9 ? '0' : '';
+  const numSre = functionFormat(quantity);
 
   useEffect(() => {
     const checkIfFavorite = async (): Promise<void> => {
-      try {
-        const favoriteData = await AsyncStorage.getItem('favorites');
-        let favorites = [];
+      const favorites = await getDataLocalStorage<Product[]>('favorites');
 
-        if (favoriteData) {
-          try {
-            favorites = JSON.parse(favoriteData);
-            if (!Array.isArray(favorites)) {
-              favorites = [];
-            }
-          } catch (error) {
-            console.error('Error parsing favorites data:', error);
-            favorites = [];
-          }
-        }
-
+      if (favorites) {
         const isAlreadyFavorite = favorites.some(
-          (item: CategoryProduct) => item.id === id,
+          (item: Product) => item.id === product.id,
         );
 
         setIsFavorite(isAlreadyFavorite);
-      } catch (error) {
-        console.error('Error fetching data from AsyncStorage:', error);
       }
     };
 
     checkIfFavorite();
-  }, [id]);
+  }, [product.id]);
 
   const handleMoreProduct = (): void => {
     setQuantity(quantity + 1);
@@ -86,68 +64,68 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
 
   const handleAddToCart = async (): Promise<void> => {
     try {
-      const newProduct: CategoryProduct = {
-        id,
-        image,
-        label,
-        price,
-        rate,
-        review,
-        desc,
-        quantity,
-      };
-      await AsyncStorage.setItem('myCart', JSON.stringify([newProduct]));
+      const cartData = (await getDataLocalStorage<Product[]>('myCart')) || [];
+
+      const existingProductIndex = cartData.findIndex(
+        (item: Product) => item.id === product.id,
+      );
+
+      if (existingProductIndex === -1) {
+        const newProduct: Product = {
+          ...product,
+          quantity: quantity,
+        };
+        cartData.push(newProduct);
+
+        setDataLocalStorage('myCart', cartData);
+      }
+
       navigation.navigate('MyCart');
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error('Error handling add to cart:', error);
     }
   };
 
   const handleFavorites = async (): Promise<void> => {
     try {
-      const storedData = await AsyncStorage.getItem('categoryProductData');
-      if (storedData !== null) {
-        let categoryProductData = JSON.parse(storedData);
+      const categoryProductData = await getDataLocalStorage<Product[]>(
+        'categoryProductData',
+      );
 
-        const itemToFavorite = categoryProductData.find(
-          (item: CategoryProduct) => item.id === id,
-        );
-
-        if (itemToFavorite) {
-          const favoriteData = await AsyncStorage.getItem('favorites');
-          let favorites = [];
-
-          if (favoriteData) {
-            try {
-              favorites = JSON.parse(favoriteData);
-              if (!Array.isArray(favorites)) {
-                favorites = [];
-              }
-            } catch (error) {
-              console.error('Error parsing favorites data:', error);
-              favorites = [];
-            }
-          }
-
-          const isAlreadyFavorite = favorites.some(
-            (item: CategoryProduct) => item.id === id,
-          );
-
-          if (isAlreadyFavorite) {
-            favorites = favorites.filter(
-              (item: CategoryProduct) => item.id !== id,
-            );
-            setIsFavorite(false);
-          } else {
-            favorites.push(itemToFavorite);
-            setIsFavorite(true);
-          }
-
-          await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-        }
+      if (!categoryProductData) {
+        console.error('Category product data not found.');
+        return;
       }
+
+      const itemToFavorite = categoryProductData.find(
+        (item: Product) => item.id === product.id,
+      );
+
+      if (!itemToFavorite) {
+        console.error('Product not found in category product data.');
+        return;
+      }
+
+      let favoriteData =
+        (await getDataLocalStorage<Product[]>('favorites')) || [];
+
+      const isAlreadyFavorite = favoriteData.some(
+        (item: Product) => item.id === product.id,
+      );
+
+      if (isAlreadyFavorite) {
+        favoriteData = favoriteData.filter(
+          (item: Product) => item.id !== product.id,
+        );
+        setIsFavorite(false);
+      } else {
+        favoriteData.push(itemToFavorite);
+        setIsFavorite(true);
+      }
+
+      await setDataLocalStorage('favorites', favoriteData);
     } catch (error) {
-      console.error('Error updating favorite status:', error);
+      console.error('Error handling favorites:', error);
     }
   };
 
@@ -159,7 +137,7 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
             <Image style={styles.iconBack} source={ic_back} />
           </TouchableOpacity>
 
-          <Image style={styles.image} source={image} />
+          <Image style={styles.image} source={product.image} />
 
           <View style={styles.boxContainer}>
             <View style={styles.boxOne}></View>
@@ -175,10 +153,10 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
         </View>
 
         <View style={styles.boxBottom}>
-          <Text style={styles.txtLabel}>{label}</Text>
+          <Text style={styles.txtLabel}>{product.label}</Text>
 
           <View style={styles.boxPrice}>
-            <Text style={styles.txtPrice}>$ {price}</Text>
+            <Text style={styles.txtPrice}>$ {product.price.toFixed(2)}</Text>
 
             <View style={styles.moreLessContainer}>
               <TouchableOpacity
@@ -203,13 +181,13 @@ const Product = ({navigation, route}: ProductProps): JSX.Element => {
           <View style={styles.rateContainer}>
             <View style={styles.boxRate}>
               <Image style={styles.iconStar} source={ic_star} />
-              <Text style={styles.txtRate}>{rate}</Text>
+              <Text style={styles.txtRate}>{product.rate}</Text>
             </View>
-            <Text style={styles.txtReviews}>({review} reviews)</Text>
+            <Text style={styles.txtReviews}>({product.review} reviews)</Text>
           </View>
 
           <View style={styles.boxDesc}>
-            <Text style={styles.txtDesc}>{desc}</Text>
+            <Text style={styles.txtDesc}>{product.desc}</Text>
           </View>
         </View>
       </ScrollView>
@@ -441,4 +419,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Product;
+export default Products;

@@ -1,7 +1,9 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
+import {setDataLocalStorage} from '@/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {JSX, useState} from 'react';
@@ -12,13 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-type User = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
 
 type RegisterProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'Register'>;
@@ -32,7 +27,7 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
 
   const saveUserDataToAsyncStorage = async (userData: User): Promise<void> => {
     try {
-      await AsyncStorage.setItem('user', JSON.stringify(userData));
+      setDataLocalStorage('user', userData);
       navigation.goBack();
     } catch (err) {
       console.error('Error saving user data:', err);
