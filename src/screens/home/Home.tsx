@@ -1,46 +1,25 @@
 import {ic_search, ic_shopping_cart, ic_star} from '@/assets/icons';
-import {ProductListHome, PopularList} from '@/components';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Product} from '@/model/production.model';
 import {productData} from '@/mock/productData';
-import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
+import PopularList from '@/components/home/PopularList';
+import ProductList from '@/components/home/ProductList';
 
 type HomeProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
 };
 
 const Home = ({navigation}: HomeProps): JSX.Element => {
-  const [productList, setProductList] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const saveData = async (): Promise<void> => {
-      setDataLocalStorage('categoryProductData', productData);
-    };
-
-    const getData = async (): Promise<void> => {
-      const data = await getDataLocalStorage<Product[]>('categoryProductData');
-      if (data) {
-        setProductList(data);
-      }
-    };
-
-    saveData();
-    getData();
+  const handleViewProduct = useCallback((product: Product): void => {
+    navigation.navigate('Product', {
+      product,
+    });
   }, []);
-
-  const handleClickItem = useCallback(
-    (product: Product): void => {
-      navigation.navigate('Product', {
-        product,
-      });
-    },
-    [productList],
-  );
 
   return (
     <View style={styles.root}>
@@ -71,7 +50,7 @@ const Home = ({navigation}: HomeProps): JSX.Element => {
       </View>
 
       <View style={styles.categoryProduct}>
-        <ProductListHome onPress={handleClickItem} productsList={productList} />
+        <ProductList onPress={handleViewProduct} productsList={productData} />
       </View>
     </View>
   );

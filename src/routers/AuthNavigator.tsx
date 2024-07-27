@@ -13,21 +13,22 @@ const AuthNavigator = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkAppState = async (): Promise<void> => {
-      try {
-        const firstLaunch = await getDataLocalStorage('isFirstLaunch');
-
-        if (!firstLaunch) {
-          setDataLocalStorage('isFirstLaunch', 'true');
-          setIsFirstLaunch(false);
-        } else {
-          setIsFirstLaunch(true);
-        }
-      } catch (error) {
-        console.error('Error checking app state:', error);
-      } finally {
-        setLoading(false);
-      }
+    const checkAppState = (): void => {
+      getDataLocalStorage('isFirstLaunch')
+        .then(firstLaunch => {
+          if (!firstLaunch) {
+            setDataLocalStorage('isFirstLaunch', 'true');
+            setIsFirstLaunch(false);
+          } else {
+            setIsFirstLaunch(true);
+          }
+        })
+        .catch(error => {
+          console.error('Error checking app state:', error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
     checkAppState();

@@ -22,7 +22,9 @@ const ProductList = ({
   onPress,
 }: ProductListProps): JSX.Element => {
   const RenderItem = (product: Product) => (
-    <TouchableOpacity style={styles.boxItem} onPress={() => onPress(product)}>
+    <TouchableOpacity
+      style={styles.boxItem}
+      onPress={(): void => onPress(product)}>
       <View>
         <Image style={styles.image} source={product.image} />
         <Image style={styles.icon} source={ic_bag} />

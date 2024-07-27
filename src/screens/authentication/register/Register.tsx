@@ -4,10 +4,10 @@ import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
 import {colors} from '@/themes/colors';
 import {setDataLocalStorage} from '@/utils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {JSX, useState} from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,13 +25,9 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const saveUserDataToAsyncStorage = async (userData: User): Promise<void> => {
-    try {
-      setDataLocalStorage('user', userData);
-      navigation.goBack();
-    } catch (err) {
-      console.error('Error saving user data:', err);
-    }
+  const saveUserDataToAsyncStorage = (userData: User): void => {
+    setDataLocalStorage('user', userData);
+    navigation.goBack();
   };
 
   const validateEmail = (email: string): boolean => {
@@ -43,28 +39,28 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
     return password.length >= 6 && /[A-Z!@#$%^&*]/.test(password);
   };
 
-  const handleRegister = async (): Promise<void> => {
-    // if (!name || !email || !password || !confirmPassword) {
-    //   Alert.alert('Please, fill in all the fields');
-    //   return;
-    // }
+  const handleRegister = (): void => {
+    if (!name || !email || !password || !confirmPassword) {
+      Alert.alert('Please, fill in all the fields');
+      return;
+    }
 
-    // if (!validateEmail(email)) {
-    //   Alert.alert('Please, enter a valid email');
-    //   return;
-    // }
+    if (!validateEmail(email)) {
+      Alert.alert('Please, enter a valid email');
+      return;
+    }
 
-    // if (!validatePassword(password)) {
-    //   Alert.alert(
-    //     'Password must be at least 6 characters long, contain at least one uppercase letter, one number, and one special character',
-    //   );
-    //   return;
-    // }
+    if (!validatePassword(password)) {
+      Alert.alert(
+        'Password must be at least 6 characters long, contain at least one uppercase letter, one number, and one special character',
+      );
+      return;
+    }
 
-    // if (confirmPassword !== password) {
-    //   Alert.alert('Passwords do not match');
-    //   return;
-    // }
+    if (confirmPassword !== password) {
+      Alert.alert('Passwords do not match');
+      return;
+    }
 
     const userData: User = {name, email, password, confirmPassword};
 

@@ -4,12 +4,12 @@ import {colors} from '@/themes/colors';
 import React, {JSX} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-type HeaderMainProps = {
+type HeaderProps = {
   title: string;
   onPress: () => void;
 };
 
-const HeaderMain = ({title, onPress}: HeaderMainProps): JSX.Element => {
+const Header = ({title, onPress}: HeaderProps): JSX.Element => {
   return (
     <View style={styles.tabBar}>
       <TouchableOpacity onPress={onPress}>
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeaderMain;
+export default Header;

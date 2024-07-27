@@ -6,9 +6,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {JSX, useCallback, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-import {FavoriteProductsList} from '@/components';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
+import FavoriteProductsList from '@/components/favorites/FavoriteProductsList';
 
 type FavoritesProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
@@ -18,47 +18,45 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
 
   useFocusEffect(
     useCallback(() => {
-      const getData = async (): Promise<void> => {
-        try {
-          const valueData = await getDataLocalStorage<Product[]>('favorites');
-          if (valueData) {
-            setFavoriteProductList(valueData);
-          }
-        } catch (error) {
-          console.error('Error fetching data from AsyncStorage:', error);
-        }
+      const getFavoritesData = (): void => {
+        getDataLocalStorage<Product[]>('favorites')
+          .then(favoriteData => {
+            if (favoriteData) {
+              setFavoriteProductList(favoriteData);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching data from AsyncStorage:', error);
+          });
       };
 
-      getData();
+      getFavoritesData();
     }, []),
   );
 
-  const handleAddToMyCard = async (): Promise<void> => {
-    try {
-      setDataLocalStorage('myCart', favoriteProductList);
-      navigation.navigate('MyCart');
-    } catch (err) {
-      console.log(err);
-    }
+  const handleAddToMyCard = (): void => {
+    setDataLocalStorage('myCart', favoriteProductList)
+      .then(() => {
+        navigation.navigate('MyCart');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handleDeleteItem = useCallback(
-    async (id: number): Promise<void> => {
+  const handleDeleteFavorite = useCallback(
+    (id: number): void => {
       const updateProducts = favoriteProductList.filter(
         product => product.id !== id,
       );
       setFavoriteProductList(updateProducts);
 
-      try {
-        setDataLocalStorage('favorites', updateProducts);
-      } catch (err) {
-        console.error('Failed to update AsyncStorage:', err);
-      }
+      setDataLocalStorage('favorites', updateProducts);
     },
     [favoriteProductList],
   );
 
-  const handleClickItem = useCallback(
+  const handleViewProduct = useCallback(
     (product: Product): void => {
       navigation.navigate('Product', {product});
     },
@@ -80,13 +78,13 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
       <View style={styles.savedProductsContainer}>
         <FavoriteProductsList
           favoriteProductsList={favoriteProductList}
-          onPress={handleClickItem}
-          onPressDelete={handleDeleteItem}
+          onPress={handleViewProduct}
+          onDeleteFavorite={handleDeleteFavorite}
         />
       </View>
 
       <View style={styles.boxButton}>
-        <ButtonMain title={'Add all to my cart'} onPress={handleAddToMyCard} />
+        <ButtonMain title="Add all to my cart" onPress={handleAddToMyCard} />
       </View>
     </View>
   );

@@ -14,11 +14,7 @@ export const productData = [
     price: 12.0,
     rate: 4.5,
     review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
+    desc: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ',
     quantity: 1,
   },
   {
@@ -28,11 +24,7 @@ export const productData = [
     price: 25.0,
     rate: 4.5,
     review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
+    desc: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ',
     quantity: 1,
   },
   {
@@ -42,11 +34,7 @@ export const productData = [
     price: 20.0,
     rate: 4.5,
     review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
+    desc: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ',
     quantity: 1,
   },
   {
@@ -56,11 +44,7 @@ export const productData = [
     price: 50.0,
     rate: 4.5,
     review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
+    desc: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ',
     quantity: 1,
   },
   {
@@ -70,11 +54,7 @@ export const productData = [
     price: 50.0,
     rate: 4.5,
     review: 50,
-    desc:
-      'Minimal Stand is made of by natural wood.' +
-      'The design that is very simple and minimal.' +
-      'This is truly one of the best furnitures in any family for now.' +
-      'With 3 different colors, you can easily select the best match for your home.',
+    desc: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ',
     quantity: 1,
   },
 ];

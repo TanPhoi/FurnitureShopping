@@ -15,15 +15,14 @@ import {
 
 type ProductListProps = {
   productList: Product[];
-  onPress: (product: Product) => void;
   onQuantityChange: (id: number, newQuantity: number) => void;
-  onDeleteItem: (id: number) => void;
+  onDeleteProduct: (id: number) => void;
 };
 
 const ProductList = ({
   productList,
   onQuantityChange,
-  onDeleteItem,
+  onDeleteProduct,
 }: ProductListProps): JSX.Element => {
   const RenderItem = (product: Product) => {
     const numStr = functionFormat(product.quantity);
@@ -43,7 +42,7 @@ const ProductList = ({
             <View style={styles.moreLessContainer}>
               <TouchableOpacity
                 style={styles.boxMoreLess}
-                onPress={() =>
+                onPress={(): void =>
                   onQuantityChange(product.id, product.quantity + 1)
                 }>
                 <Image style={styles.iconMore} source={ic_add} />
@@ -56,7 +55,7 @@ const ProductList = ({
 
               <TouchableOpacity
                 style={styles.boxMoreLess}
-                onPress={() =>
+                onPress={(): void =>
                   onQuantityChange(
                     product.id,
                     product.quantity > 1 ? product.quantity - 1 : 1,
@@ -68,7 +67,7 @@ const ProductList = ({
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => onDeleteItem(product.id)}>
+        <TouchableOpacity onPress={(): void => onDeleteProduct(product.id)}>
           <Image style={styles.icon} source={ic_delete} />
         </TouchableOpacity>
       </TouchableOpacity>

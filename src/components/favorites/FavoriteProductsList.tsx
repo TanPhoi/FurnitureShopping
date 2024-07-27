@@ -15,29 +15,29 @@ import {
 type FavoriteProductsListProps = {
   favoriteProductsList: Product[];
   onPress: (product: Product) => void;
-  onPressDelete: (id: number) => void;
+  onDeleteFavorite: (id: number) => void;
 };
 
 const FavoriteProductsList = ({
   favoriteProductsList,
   onPress,
-  onPressDelete,
+  onDeleteFavorite,
 }: FavoriteProductsListProps): JSX.Element => {
   const RenderItem = (product: Product) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => onPress(product)}>
+      onPress={(): void => onPress(product)}>
       <View style={styles.boxLeft}>
         <Image style={styles.image} source={product.image} />
 
         <View>
           <Text style={styles.txtLabel}>{product.label}</Text>
-          <Text style={styles.txtPrice}>{`$ ${product.price}.00`}</Text>
+          <Text style={styles.txtPrice}>{`$ ${product.price.toFixed(2)}`}</Text>
         </View>
       </View>
 
       <View style={styles.boxRight}>
-        <TouchableOpacity onPress={() => onPressDelete(product.id)}>
+        <TouchableOpacity onPress={(): void => onDeleteFavorite(product.id)}>
           <Image style={styles.icon} source={ic_delete} />
         </TouchableOpacity>
 

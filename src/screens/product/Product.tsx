@@ -1,5 +1,6 @@
 import {ic_add, ic_back, ic_favorites, ic_star} from '@/assets/icons';
 import {ButtonMain} from '@/commons';
+import {productData} from '@/mock/productData';
 import {Product} from '@/model/production.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
@@ -30,19 +31,19 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
   const {product} = route.params;
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
-  const numSre = functionFormat(quantity);
+  const numStr = functionFormat(quantity);
 
   useEffect(() => {
-    const checkIfFavorite = async (): Promise<void> => {
-      const favorites = await getDataLocalStorage<Product[]>('favorites');
+    const checkIfFavorite = (): void => {
+      getDataLocalStorage<Product[]>('favorites').then(favorites => {
+        if (favorites) {
+          const isAlreadyFavorite = favorites.some(
+            (item: Product) => item.id === product.id,
+          );
 
-      if (favorites) {
-        const isAlreadyFavorite = favorites.some(
-          (item: Product) => item.id === product.id,
-        );
-
-        setIsFavorite(isAlreadyFavorite);
-      }
+          setIsFavorite(isAlreadyFavorite);
+        }
+      });
     };
 
     checkIfFavorite();
@@ -62,71 +63,67 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
     navigation.goBack();
   };
 
-  const handleAddToCart = async (): Promise<void> => {
-    try {
-      const cartData = (await getDataLocalStorage<Product[]>('myCart')) || [];
+  const handleAddToCart = (): void => {
+    getDataLocalStorage<Product[]>('myCart')
+      .then(carts => {
+        if (!carts) {
+          carts = [];
+        }
 
-      const existingProductIndex = cartData.findIndex(
-        (item: Product) => item.id === product.id,
-      );
+        const existingProductIndex = carts.findIndex(
+          (item: Product) => item.id === product.id,
+        );
 
-      if (existingProductIndex === -1) {
-        const newProduct: Product = {
-          ...product,
-          quantity: quantity,
-        };
-        cartData.push(newProduct);
+        if (existingProductIndex === -1) {
+          const newProduct: Product = {
+            ...product,
+            quantity: quantity,
+          };
+          carts.push(newProduct);
 
-        setDataLocalStorage('myCart', cartData);
-      }
+          setDataLocalStorage('myCart', carts);
+        }
 
-      navigation.navigate('MyCart');
-    } catch (error) {
-      console.error('Error handling add to cart:', error);
-    }
+        navigation.navigate('MyCart');
+      })
+      .catch(err => {
+        console.error('Error when processing add to cart:', err);
+      });
   };
 
-  const handleFavorites = async (): Promise<void> => {
-    try {
-      const categoryProductData = await getDataLocalStorage<Product[]>(
-        'categoryProductData',
-      );
+  const handleAddFavorites = (): void => {
+    const itemToFavorite = productData.find(
+      (item: Product) => item.id === product.id,
+    );
 
-      if (!categoryProductData) {
-        console.error('Category product data not found.');
-        return;
-      }
-
-      const itemToFavorite = categoryProductData.find(
-        (item: Product) => item.id === product.id,
-      );
-
-      if (!itemToFavorite) {
-        console.error('Product not found in category product data.');
-        return;
-      }
-
-      let favoriteData =
-        (await getDataLocalStorage<Product[]>('favorites')) || [];
-
-      const isAlreadyFavorite = favoriteData.some(
-        (item: Product) => item.id === product.id,
-      );
-
-      if (isAlreadyFavorite) {
-        favoriteData = favoriteData.filter(
-          (item: Product) => item.id !== product.id,
-        );
-        setIsFavorite(false);
-      } else {
-        favoriteData.push(itemToFavorite);
-        setIsFavorite(true);
-      }
-
-      await setDataLocalStorage('favorites', favoriteData);
-    } catch (error) {
-      console.error('Error handling favorites:', error);
+    if (!itemToFavorite) {
+      console.error('Product not found in category product data.');
+      return;
     }
+
+    getDataLocalStorage<Product[]>('favorites')
+      .then(favoriteData => {
+        favoriteData = favoriteData || [];
+
+        const isAlreadyFavorite = favoriteData.some(
+          (item: Product) => item.id === product.id,
+        );
+
+        if (isAlreadyFavorite) {
+          favoriteData = favoriteData.filter(
+            (item: Product) => item.id !== product.id,
+          );
+          setIsFavorite(false);
+        } else {
+          favoriteData.push(itemToFavorite);
+          setIsFavorite(true);
+        }
+
+        setDataLocalStorage('favorites', favoriteData);
+      })
+      .catch(error => {
+        console.error('Error handling favorites:', error);
+      });
   };
 
   return (
@@ -166,7 +163,7 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
               </TouchableOpacity>
 
               <Text style={styles.txtNumber}>
-                {numSre}
+                {numStr}
                 {quantity}
               </Text>
 
@@ -198,7 +195,7 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
             styles.boxIcFavorites,
             isFavorite && {backgroundColor: colors.primary},
           ]}
-          onPress={handleFavorites}>
+          onPress={handleAddFavorites}>
           <Image
             style={[
               styles.iconFavorites,
@@ -209,7 +206,7 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
         </TouchableOpacity>
 
         <View style={styles.boxButton}>
-          <ButtonMain title={'Add to cart'} onPress={handleAddToCart} />
+          <ButtonMain title="Add to cart" onPress={handleAddToCart} />
         </View>
       </View>
     </View>

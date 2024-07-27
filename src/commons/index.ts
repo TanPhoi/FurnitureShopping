@@ -1,6 +1,6 @@
 import HeaderDivider from '@/commons/headerDividers/HeaderDivider';
 import TextInputMain from '@/commons/textInputs/TextInputMain';
 import ButtonMain from '@/commons/buttons/ButtonMain';
-import HeaderMain from '@/commons/headers/HeaderMain';
+import Header from '@/commons/headers/Header';
 
-export {HeaderDivider, TextInputMain, ButtonMain, HeaderMain};
+export {HeaderDivider, TextInputMain, ButtonMain, Header};

@@ -28,20 +28,31 @@ const AppNavigation = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchUser = async (): Promise<void> => {
-      try {
-        const userData = await getDataLocalStorage<User>('loggedInUser');
-        if (userData) {
-          // const parsedUserData: User = JSON.parse(userData);
-          setUser(userData);
-        }
-      } catch (err) {
-        console.error('Error fetching user data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const fetchUser = (): void => {
+      //   try {
+      //     const userData = await getDataLocalStorage<User>('loggedInUser');
+      //     if (userData) {
+      //       // const parsedUserData: User = JSON.parse(userData);
+      //       setUser(userData);
+      //     }
+      //   } catch (err) {
+      //     console.error('Error fetching user data:', err);
+      //   } finally {
+      //     setLoading(false);
+      //   }
+      // };
 
+      getDataLocalStorage<User>('loggedInUser')
+        .then(user => {
+          setUser(user);
+        })
+        .catch(err => {
+          console.error('Error fetching user data:', err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
     fetchUser();
   }, []);
 

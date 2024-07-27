@@ -1,5 +1,5 @@
 import {ic_next} from '@/assets/icons';
-import {ButtonMain, HeaderMain} from '@/commons';
+import {ButtonMain, Header} from '@/commons';
 import ProductListMyCart from '@/components/myCarts/ProductList';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 
@@ -23,19 +22,21 @@ type MyCartProps = {
 
 const MyCart = ({navigation}: MyCartProps): JSX.Element => {
   const [productList, setProductList] = useState<Product[]>([]);
-  useEffect(() => {
-    const getData = async (): Promise<void> => {
-      try {
-        const jsonValue = await getDataLocalStorage<Product[]>('myCart');
 
-        if (jsonValue) {
-          setProductList(jsonValue);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+  useEffect(() => {
+    const getMyCartData = (): void => {
+      getDataLocalStorage<Product[]>('myCart')
+        .then(jsonValue => {
+          if (jsonValue) {
+            setProductList(jsonValue);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
     };
-    getData();
+
+    getMyCartData();
   }, []);
 
   const totalPrice = useMemo(() => {
@@ -59,8 +60,8 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
     [productList],
   );
 
-  const handleDeleteItem = useCallback(
-    async (id: number): Promise<void> => {
+  const handleDeleteProduct = useCallback(
+    (id: number): void => {
       const updateProducts = productList.filter(product => product.id !== id);
       setProductList(updateProducts);
 
@@ -73,7 +74,8 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
     [productList],
   );
 
-  const handleMyCard = (): void => {};
+  //TODO: implement later
+  const handleCheckOut = (): void => {};
 
   const handleBack = (): void => {
     navigation.goBack();
@@ -82,7 +84,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
   return (
     <View style={styles.root}>
       <View>
-        <HeaderMain title={'My cart'} onPress={handleBack} />
+        <Header title={'My cart'} onPress={handleBack} />
       </View>
 
       <View
@@ -93,11 +95,8 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
         <View style={styles.savedProductsContainer}>
           <ProductListMyCart
             productList={productList}
-            onPress={function (product: Product): void {
-              throw new Error('Function not implemented.');
-            }}
             onQuantityChange={handleQuantityChange}
-            onDeleteItem={handleDeleteItem}
+            onDeleteProduct={handleDeleteProduct}
           />
         </View>
 
@@ -115,11 +114,11 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
 
           <View style={styles.boxTotal}>
             <Text style={styles.txtTotal}>Total:</Text>
-            <Text style={styles.txtPrice}>{`$ ${totalPrice}.00`}</Text>
+            <Text style={styles.txtPrice}>{`$ ${totalPrice.toFixed(2)}`}</Text>
           </View>
 
           <View style={styles.boxButton}>
-            <ButtonMain title={'Check out'} onPress={handleMyCard} />
+            <ButtonMain title={'Check out'} onPress={handleCheckOut} />
           </View>
         </View>
       </View>
