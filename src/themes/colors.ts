@@ -12,9 +12,8 @@ export const colors = {
   blur_grey: '#F0F0F0',
   yellow: '#F2C94C',
   secondary_button_gb: '#F0F0F0',
-  text: '#878787',
-  textTitle: '#313231',
-  label: '#303030',
-  button: '#242424',
-  textButton: '#FFFFFF',
+  text_secondary: '#808080',
+  success: '#27AE60',
+  red: '#EB5757',
+  placeholder: '#B3B3B3',
 };

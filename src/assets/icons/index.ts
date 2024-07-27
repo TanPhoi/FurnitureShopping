@@ -25,6 +25,12 @@ import ic_armchair from '@/assets/icons/ic_armchair.png';
 import ic_bed from '@/assets/icons/ic_bed.png';
 import ic_lamp from '@/assets/icons/ic_lamp.png';
 import ic_delete from '@/assets/icons/ic_delete.png';
+import ic_background_success from '@/assets/icons/ic_background_success.png';
+import ic_checkMark from '@/assets/icons/ic_checkMark.png';
+import ic_success from '@/assets/icons/ic_success.png';
+import ic_user_one from '@/assets/icons/ic_user_one.png';
+import ic_user_two from '@/assets/icons/ic_user_two.png';
+import ic_user_three from '@/assets/icons/ic_user_three.png';
 
 export {
   ic_add,
@@ -54,4 +60,10 @@ export {
   ic_bed,
   ic_lamp,
   ic_delete,
+  ic_background_success,
+  ic_checkMark,
+  ic_success,
+  ic_user_one,
+  ic_user_two,
+  ic_user_three,
 };

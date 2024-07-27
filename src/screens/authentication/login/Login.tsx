@@ -32,7 +32,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
     getDataLocalStorage<User>('user')
       .then(user => {
         if (user) {
-          if (user.name === email && user.password === password) {
+          if (user.email === email && user.password === password) {
             setDataLocalStorage('loggedInUser', user);
             navigation.dispatch(
               CommonActions.reset({
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xl,
   },
   txtHello: {
-    color: colors.text,
+    color: colors.grey_2,
     fontSize: 30,
     fontFamily: 'Merriweather',
     lineHeight: 45,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   txtSignUp: {
-    color: colors.label,
+    color: colors.black_font,
     fontSize: 18,
     fontWeight: '600',
     fontFamily: 'NunitoSans',

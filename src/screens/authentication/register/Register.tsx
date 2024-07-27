@@ -151,9 +151,6 @@ const styles = StyleSheet.create({
   txtContainer: {
     marginTop: spacing.xl,
   },
-  txtHello: {
-    color: colors.text,
-  },
   txtWelcome: {
     color: colors.black_font,
     fontFamily: 'Merriweather',

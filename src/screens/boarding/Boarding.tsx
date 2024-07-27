@@ -89,13 +89,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: colors.button,
+    backgroundColor: colors.primary,
     width: 159,
-    height: 54,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 6,
+    paddingVertical: spacing.sm,
     elevation: 4,
   },
   txtButton: {

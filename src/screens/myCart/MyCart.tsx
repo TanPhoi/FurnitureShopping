@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
+import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
+import {useFocusEffect} from '@react-navigation/native';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;
@@ -22,6 +24,20 @@ type MyCartProps = {
 
 const MyCart = ({navigation}: MyCartProps): JSX.Element => {
   const [productList, setProductList] = useState<Product[]>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        removeDataLocalStorage('myCart')
+          .then(() => {
+            setProductList([]);
+          })
+          .catch(error => {
+            console.error('Failed to remove my cart from AsyncStorage:', error);
+          });
+      };
+    }, []),
+  );
 
   useEffect(() => {
     const getMyCartData = (): void => {
@@ -74,8 +90,9 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
     [productList],
   );
 
-  //TODO: implement later
-  const handleCheckOut = (): void => {};
+  const handleCheckOut = (): void => {
+    navigation.navigate('OrderSuccess');
+  };
 
   const handleBack = (): void => {
     navigation.goBack();
@@ -117,9 +134,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
             <Text style={styles.txtPrice}>{`$ ${totalPrice.toFixed(2)}`}</Text>
           </View>
 
-          <View style={styles.boxButton}>
-            <ButtonMain title={'Check out'} onPress={handleCheckOut} />
-          </View>
+          <ButtonMain title={'Check out'} onPress={handleCheckOut} />
         </View>
       </View>
     </View>
@@ -193,8 +208,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
   },
-
-  boxButton: {},
 });
 
 export default MyCart;

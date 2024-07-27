@@ -1,8 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {JSX, useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View, StyleSheet, ImageSourcePropType} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import MainNavigator from '@/routers/MainNavigator';
 import AuthNavigator from '@/routers/AuthNavigator';
 import {colors} from '@/themes';
@@ -19,6 +18,8 @@ export type RootStackParamsList = {
   AuthNavigator: undefined;
   Product: {product: Product};
   MyCart: undefined;
+  OrderSuccess: undefined;
+  MyReviews: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -29,19 +30,6 @@ const AppNavigation = (): JSX.Element => {
 
   useEffect(() => {
     const fetchUser = (): void => {
-      //   try {
-      //     const userData = await getDataLocalStorage<User>('loggedInUser');
-      //     if (userData) {
-      //       // const parsedUserData: User = JSON.parse(userData);
-      //       setUser(userData);
-      //     }
-      //   } catch (err) {
-      //     console.error('Error fetching user data:', err);
-      //   } finally {
-      //     setLoading(false);
-      //   }
-      // };
-
       getDataLocalStorage<User>('loggedInUser')
         .then(user => {
           setUser(user);
