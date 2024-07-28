@@ -1,27 +1,38 @@
 import {ic_search} from '@/assets/icons';
-import {notificationData} from '@/mock/notificationData';
+import {notificationData, NotificationTypeEnum} from '@/mock/notificationData';
 import {colors, spacing} from '@/themes';
 import React, {JSX} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {NotificationType} from '@/model/notification.model';
 
 const Notification = (): JSX.Element => {
-  const RenderItem = ({
-    id,
-    image,
-    label,
-    content,
-    isShow,
-  }: NotificationType) => (
-    <View style={isShow && styles.itemContainerNew}>
+  const RenderItem = (notification: NotificationType) => (
+    <View
+      style={
+        notification.type === NotificationTypeEnum.NEW ||
+        notification.type === NotificationTypeEnum.HOT
+          ? styles.itemContainer
+          : null
+      }>
       <View style={styles.boxItem}>
-        {image && <Image source={image} style={styles.imgItem} />}
+        {notification.image && (
+          <Image source={notification.image} style={styles.imgItem} />
+        )}
         <View style={styles.boxContent}>
-          <Text style={styles.txtLabelItem}>{label}</Text>
-          <Text style={styles.txtContentItem}>{content}</Text>
-          {isShow && (
-            <Text style={id === 3 ? styles.txtHot : styles.txtNew}>
-              {id === 3 ? 'Hot!' : 'New'}
+          <Text style={styles.txtLabelItem}>{notification.label}</Text>
+          <Text style={styles.txtContentItem}>{notification.content}</Text>
+          {notification.type && (
+            <Text
+              style={
+                notification.type === NotificationTypeEnum.HOT
+                  ? styles.txtHot
+                  : styles.txtNew
+              }>
+              {notification.type === NotificationTypeEnum.HOT
+                ? 'Hot!'
+                : notification.type === NotificationTypeEnum.NEW
+                ? 'New'
+                : ''}
             </Text>
           )}
         </View>
@@ -77,8 +88,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
 
-  itemContainer: {},
-  itemContainerNew: {
+  itemContainer: {
     backgroundColor: colors.disabled_field,
   },
   boxItem: {

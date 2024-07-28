@@ -34,10 +34,7 @@ const OrderSuccess = ({navigation}: OrderSuccessProps): JSX.Element => {
   const handleTrackOrder = (): void => {};
 
   const handleBackHome = (): void => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'TabNavigation'}],
-    });
+    navigation.navigate('TabNavigation');
   };
 
   return (

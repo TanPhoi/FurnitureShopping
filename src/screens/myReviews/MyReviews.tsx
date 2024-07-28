@@ -1,6 +1,6 @@
 import {ic_back, ic_search, ic_star} from '@/assets/icons';
-import {reviewData} from '@/mock/reviewData';
-import {Review} from '@/model/review.model';
+import {myReviewsData} from '@/mock/myReviewsData';
+import {MyReviewsType} from '@/model/myReviewsType.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -23,29 +23,28 @@ const MyReviews = ({navigation}: MyReviewsProps): JSX.Element => {
     navigation.goBack();
   };
 
-  const RenderItem = ({image, name, price, time, content}: Review) => (
+  const RenderItem = (myReview: MyReviewsType) => (
     <TouchableOpacity style={styles.itemContainer}>
       <View style={styles.boxInformationProduct}>
-        <Image style={styles.imgProduct} source={image} />
+        <Image style={styles.imgProduct} source={myReview.image} />
         <View>
-          <Text style={styles.txtName}>{name}</Text>
-          <Text style={styles.txtPrice}>$ {price.toFixed(2)}</Text>
+          <Text style={styles.txtName}>{myReview.name}</Text>
+          <Text style={styles.txtPrice}>$ {myReview.price.toFixed(2)}</Text>
         </View>
       </View>
 
       <View style={styles.rateContainer}>
         <View style={styles.boxRateItem}>
-          <Image style={styles.iconStar} source={ic_star} />
-          <Image style={styles.iconStar} source={ic_star} />
-          <Image style={styles.iconStar} source={ic_star} />
-          <Image style={styles.iconStar} source={ic_star} />
-          <Image style={styles.iconStar} source={ic_star} />
+          {Array.from({length: myReview.rating}).map((_, index) => (
+            <Image key={index} style={styles.iconStar} source={ic_star} />
+          ))}
         </View>
-        <Text style={styles.txtTime}>{time}</Text>
+        <Text style={styles.txtTime}>{myReview.time}</Text>
       </View>
-      <Text style={styles.txtContent}>{content}</Text>
+      <Text style={styles.txtContent}>{myReview.content}</Text>
     </TouchableOpacity>
   );
+
   return (
     <View style={styles.container}>
       <View style={styles.tabBarContainer}>
@@ -59,7 +58,7 @@ const MyReviews = ({navigation}: MyReviewsProps): JSX.Element => {
       </View>
 
       <FlatList
-        data={reviewData}
+        data={myReviewsData}
         renderItem={({item}) => <RenderItem {...item} />}
         keyExtractor={item => item.id.toString()}
         showsVerticalScrollIndicator={false}

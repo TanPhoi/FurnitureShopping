@@ -1,3 +1,4 @@
+import {NotificationTypeEnum} from '@/mock/notificationData';
 import {ImageSourcePropType} from 'react-native';
 
 export type NotificationType = {
@@ -5,5 +6,5 @@ export type NotificationType = {
   image?: ImageSourcePropType;
   label: string;
   content: string;
-  isShow: boolean;
+  type: NotificationTypeEnum;
 };

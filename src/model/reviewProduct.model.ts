@@ -1,10 +1,10 @@
 import {ImageSourcePropType} from 'react-native';
 
-export type Review = {
+export type ReviewProductType = {
   id: number;
   image: ImageSourcePropType;
   name: string;
-  price: number;
   time: string;
+  rating: number;
   content: string;
 };

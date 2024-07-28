@@ -9,6 +9,7 @@ import Product from '@/screens/product/Product';
 import MyCart from '@/screens/myCart/MyCart';
 import OrderSuccess from '@/screens/orderSuccess/OrderSuccess';
 import MyReviews from '@/screens/myReviews/MyReviews';
+import ReviewsProduct from '@/screens/reviewsProduct/ReviewsProduct';
 
 export {
   Boarding,
@@ -22,4 +23,5 @@ export {
   MyCart,
   OrderSuccess,
   MyReviews,
+  ReviewsProduct,
 };

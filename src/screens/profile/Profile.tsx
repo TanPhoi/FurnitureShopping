@@ -1,5 +1,6 @@
 import {ic_exit, ic_search, ic_user_one} from '@/assets/icons';
-import LabelWithImage from '@/components/profiles/LabelWithImage';
+import ProfileTab from '@/components/profiles/ProfileTab';
+import {message} from '@/constants/message.contant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -13,7 +14,7 @@ type ProfileProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
 };
 const Profile = ({navigation}: ProfileProps): JSX.Element => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const getData = (): void => {
@@ -24,7 +25,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
           }
         })
         .catch(err => {
-          console.error('Error fetching user data:', err);
+          console.error(message.GET, err);
         });
     };
     getData();
@@ -55,7 +56,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
         });
       })
       .catch(error => {
-        console.error('Failed to remove user from AsyncStorage:', error);
+        console.error(message.REMOVE, error);
       });
   };
 
@@ -110,7 +111,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
 
         <View style={styles.boxContainer}>
           {labelWithImageData.map((item, index) => (
-            <LabelWithImage
+            <ProfileTab
               key={index}
               label={item.label}
               content={item.content}

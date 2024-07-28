@@ -9,6 +9,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import FavoriteProductsList from '@/components/favorites/FavoriteProductsList';
+import {message} from '@/constants/message.contant';
 
 type FavoritesProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
@@ -26,7 +27,7 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
             }
           })
           .catch(error => {
-            console.error('Error fetching data from AsyncStorage:', error);
+            console.error(message.GET, error);
           });
       };
 
@@ -40,7 +41,7 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
         navigation.navigate('MyCart');
       })
       .catch(err => {
-        console.log(err);
+        console.log(message.SET, err);
       });
   };
 

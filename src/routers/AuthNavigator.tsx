@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {colors} from '@/themes';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
+import {message} from '@/constants/message.contant';
 
 const AuthStack = createNativeStackNavigator<RootStackParamsList>();
 
@@ -24,7 +25,7 @@ const AuthNavigator = (): JSX.Element => {
           }
         })
         .catch(error => {
-          console.error('Error checking app state:', error);
+          console.error(message.GET, error);
         })
         .finally(() => {
           setLoading(false);

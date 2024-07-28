@@ -1,24 +1,18 @@
-import {
-  ic_edit,
-  ic_exit,
-  ic_next,
-  ic_search,
-  ic_user_one,
-} from '@/assets/icons';
+import {ic_next} from '@/assets/icons';
 import {colors, spacing} from '@/themes';
 import React, {JSX} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-type LabelWithImageProps = {
+type ProfileTabProps = {
   label: string;
   content: string;
   onPress: () => void;
 };
-const LabelWithImage = ({
+const ProfileTab = ({
   label,
   content,
   onPress,
-}: LabelWithImageProps): JSX.Element => {
+}: ProfileTabProps): JSX.Element => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
@@ -62,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LabelWithImage;
+export default ProfileTab;

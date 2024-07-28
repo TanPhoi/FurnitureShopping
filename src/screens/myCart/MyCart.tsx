@@ -17,6 +17,7 @@ import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
 import {useFocusEffect} from '@react-navigation/native';
+import {message} from '@/constants/message.contant';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;
@@ -33,7 +34,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
             setProductList([]);
           })
           .catch(error => {
-            console.error('Failed to remove my cart from AsyncStorage:', error);
+            console.error(message.REMOVE, error);
           });
       };
     }, []),
@@ -48,7 +49,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
           }
         })
         .catch(error => {
-          console.error(error);
+          console.error(message.GET, error);
         });
     };
 

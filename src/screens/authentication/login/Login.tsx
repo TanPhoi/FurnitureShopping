@@ -1,4 +1,5 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {message} from '@/constants/message.contant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -46,7 +47,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
         }
       })
       .catch(error => {
-        console.error('Error fetching user data:', error);
+        console.error(message.GET, error);
       });
   };
 

@@ -126,6 +126,10 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
       });
   };
 
+  const handleSeenRateReview = (): void => {
+    navigation.navigate('ReviewsProduct', {product});
+  };
+
   return (
     <View style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -175,13 +179,15 @@ const Products = ({navigation, route}: ProductProps): JSX.Element => {
             </View>
           </View>
 
-          <View style={styles.rateContainer}>
+          <TouchableOpacity
+            style={styles.rateContainer}
+            onPress={handleSeenRateReview}>
             <View style={styles.boxRate}>
               <Image style={styles.iconStar} source={ic_star} />
               <Text style={styles.txtRate}>{product.rate}</Text>
             </View>
             <Text style={styles.txtReviews}>({product.review} reviews)</Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.boxDesc}>
             <Text style={styles.txtDesc}>{product.desc}</Text>
