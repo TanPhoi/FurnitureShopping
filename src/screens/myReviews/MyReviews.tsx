@@ -39,6 +39,7 @@ const MyReviews = ({navigation}: MyReviewsProps): JSX.Element => {
             <Image key={index} style={styles.iconStar} source={ic_star} />
           ))}
         </View>
+
         <Text style={styles.txtTime}>{myReview.time}</Text>
       </View>
       <Text style={styles.txtContent}>{myReview.content}</Text>
