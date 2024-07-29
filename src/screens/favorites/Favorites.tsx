@@ -9,7 +9,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import FavoriteProductsList from '@/components/favorites/FavoriteProductsList';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 
 type FavoritesProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;

@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {colors} from '@/themes';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 
 const AuthStack = createNativeStackNavigator<RootStackParamsList>();
 

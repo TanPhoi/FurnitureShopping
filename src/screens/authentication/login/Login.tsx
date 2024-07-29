@@ -1,5 +1,5 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';

@@ -17,7 +17,7 @@ import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
 import {useFocusEffect} from '@react-navigation/native';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;

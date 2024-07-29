@@ -1,6 +1,6 @@
 import {ic_exit, ic_search, ic_user_one} from '@/assets/icons';
 import ProfileTab from '@/components/profiles/ProfileTab';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';

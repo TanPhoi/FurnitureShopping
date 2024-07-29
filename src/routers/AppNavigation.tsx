@@ -8,7 +8,7 @@ import {colors} from '@/themes';
 import {Product} from '@/model/production.model';
 import {User} from '@/model/user.model';
 import {getDataLocalStorage} from '@/utils';
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 
 export type RootStackParamsList = {
   Boarding: undefined;
