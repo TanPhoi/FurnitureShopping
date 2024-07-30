@@ -28,9 +28,7 @@ import ic_delete from '@/assets/icons/ic_delete.png';
 import ic_background_success from '@/assets/icons/ic_background_success.png';
 import ic_checkMark from '@/assets/icons/ic_checkMark.png';
 import ic_success from '@/assets/icons/ic_success.png';
-import ic_user_one from '@/assets/icons/ic_user_one.png';
-import ic_user_two from '@/assets/icons/ic_user_two.png';
-import ic_user_three from '@/assets/icons/ic_user_three.png';
+import ic_checkbox from '@/assets/icons/ic_checkbox.png';
 
 export {
   ic_add,
@@ -63,7 +61,5 @@ export {
   ic_background_success,
   ic_checkMark,
   ic_success,
-  ic_user_one,
-  ic_user_two,
-  ic_user_three,
+  ic_checkbox,
 };

@@ -22,6 +22,8 @@ export type RootStackParamsList = {
   OrderSuccess: undefined;
   MyReviews: undefined;
   ReviewsProduct: {product: Product};
+  ShippingAddress: undefined;
+  AddShippingAddress: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();

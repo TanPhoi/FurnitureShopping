@@ -2,11 +2,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {JSX} from 'react';
 import TabNavigation from '@/routers/TabNavigation';
 import {
+  AddShippingAddress,
   MyCart,
   MyReviews,
   OrderSuccess,
   Product,
   ReviewsProduct,
+  ShippingAddress,
 } from '@/screens';
 import {RootStackParamsList} from './AppNavigation';
 import AuthNavigator from './AuthNavigator';
@@ -31,6 +33,11 @@ const MainNavigator = (): JSX.Element => {
       <MainStack.Screen name="AuthNavigator" component={AuthNavigator} />
       <MainStack.Screen name="MyReviews" component={MyReviews} />
       <MainStack.Screen name="ReviewsProduct" component={ReviewsProduct} />
+      <MainStack.Screen name="ShippingAddress" component={ShippingAddress} />
+      <MainStack.Screen
+        name="AddShippingAddress"
+        component={AddShippingAddress}
+      />
     </MainStack.Navigator>
   );
 };

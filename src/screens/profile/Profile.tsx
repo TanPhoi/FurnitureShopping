@@ -1,4 +1,5 @@
-import {ic_exit, ic_search, ic_user_one} from '@/assets/icons';
+import {ic_exit, ic_search} from '@/assets/icons';
+import {img_user_one} from '@/assets/images';
 import ProfileTab from '@/components/profiles/ProfileTab';
 import {message} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
@@ -35,8 +36,9 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
     navigation.navigate('MyReviews');
   };
 
-  //TODO: implement later
-  const handleShipAddress = (): void => {};
+  const handleShipAddress = (): void => {
+    navigation.navigate('ShippingAddress');
+  };
 
   //TODO: implement later
   const handleMyOrder = (): void => {};
@@ -60,7 +62,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
       });
   };
 
-  const labelWithImageData = [
+  const profileTabData = [
     {
       label: 'My orders',
       content: 'Already have 10 orders',
@@ -102,7 +104,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
 
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <Image style={styles.imgUser} source={ic_user_one} />
+          <Image style={styles.imgUser} source={img_user_one} />
           <View style={styles.boxInformation}>
             <Text style={styles.txtName}>{user?.name}</Text>
             <Text style={styles.txtEmail}>{user?.email}</Text>
@@ -110,7 +112,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
         </View>
 
         <View style={styles.boxContainer}>
-          {labelWithImageData.map((item, index) => (
+          {profileTabData.map((item, index) => (
             <ProfileTab
               key={index}
               label={item.label}

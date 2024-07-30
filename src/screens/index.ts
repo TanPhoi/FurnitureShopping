@@ -10,6 +10,8 @@ import MyCart from '@/screens/myCart/MyCart';
 import OrderSuccess from '@/screens/orderSuccess/OrderSuccess';
 import MyReviews from '@/screens/myReviews/MyReviews';
 import ReviewsProduct from '@/screens/reviewsProduct/ReviewsProduct';
+import ShippingAddress from '@/screens/shippingAddress/ShippingAddress';
+import AddShippingAddress from '@/screens/addShippingAddress/AddShippingAddress';
 
 export {
   Boarding,
@@ -24,4 +26,6 @@ export {
   OrderSuccess,
   MyReviews,
   ReviewsProduct,
+  ShippingAddress,
+  AddShippingAddress,
 };

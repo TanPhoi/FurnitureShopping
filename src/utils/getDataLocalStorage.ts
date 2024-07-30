@@ -1,4 +1,4 @@
-import {message} from '@/constants/message.contant';
+import {message} from '@/constants/message.constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getDataLocalStorage = async <T>(key: string): Promise<T | null> => {
