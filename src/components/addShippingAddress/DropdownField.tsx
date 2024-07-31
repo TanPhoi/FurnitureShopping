@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, memo} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Dropdown, IDropdownRef} from 'react-native-element-dropdown';
 import {colors, spacing} from '@/themes';

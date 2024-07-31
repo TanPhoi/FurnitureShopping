@@ -1,4 +1,4 @@
-import React, {JSX, useState} from 'react';
+import React, {JSX, memo, useState} from 'react';
 import {
   View,
   Text,
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputField;
+export default memo(InputField);

@@ -11,7 +11,7 @@ import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
   KeyboardTypeOptions,
@@ -84,20 +84,26 @@ const AddShippingAddress = ({
       });
   };
 
-  const handleChangeCountry = (value: string, label: string): void => {
-    setCountryValue(value);
-    setCountry(label);
-  };
+  const handleChangeCountry = useCallback(
+    (value: string, label: string): void => {
+      setCountryValue(value);
+      setCountry(label);
+    },
+    [],
+  );
 
-  const handleChangeCity = (value: string, label: string): void => {
+  const handleChangeCity = useCallback((value: string, label: string): void => {
     setCityValue(value);
     setCity(label);
-  };
+  }, []);
 
-  const handleChangeDistrict = (value: string, label: string): void => {
-    setDistrictValue(value);
-    setDistrict(label);
-  };
+  const handleChangeDistrict = useCallback(
+    (value: string, label: string): void => {
+      setDistrictValue(value);
+      setDistrict(label);
+    },
+    [],
+  );
 
   const inputFields = [
     {
