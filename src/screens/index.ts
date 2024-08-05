@@ -12,6 +12,7 @@ import MyReviews from '@/screens/myReviews/MyReviews';
 import ReviewsProduct from '@/screens/reviewsProduct/ReviewsProduct';
 import ShippingAddress from '@/screens/shippingAddress/ShippingAddress';
 import AddShippingAddress from '@/screens/addShippingAddress/AddShippingAddress';
+import Setting from '@/screens/setting/Setting';
 
 export {
   Boarding,
@@ -28,4 +29,5 @@ export {
   ReviewsProduct,
   ShippingAddress,
   AddShippingAddress,
+  Setting,
 };

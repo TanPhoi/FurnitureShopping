@@ -8,7 +8,7 @@ import {colors} from '@/themes';
 import {Product} from '@/model/production.model';
 import {User} from '@/model/user.model';
 import {getDataLocalStorage} from '@/utils';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 
 export type RootStackParamsList = {
   Boarding: undefined;
@@ -24,6 +24,7 @@ export type RootStackParamsList = {
   ReviewsProduct: {product: Product};
   ShippingAddress: undefined;
   AddShippingAddress: undefined;
+  Setting: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -39,7 +40,7 @@ const AppNavigation = (): JSX.Element => {
           setUser(user);
         })
         .catch(err => {
-          console.error(message.GET, err);
+          console.error(GET_DATA_ERROR, err);
         })
         .finally(() => {
           setLoading(false);

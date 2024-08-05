@@ -1,6 +1,6 @@
 import {ic_add, ic_checkbox, ic_edit} from '@/assets/icons';
 import Header from '@/commons/headers/Header';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 import {ShippingAddressType} from '@/model/shippingAddressType.model';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
@@ -57,7 +57,7 @@ const ShippingAddress = ({navigation}: ShippingAddressProps): JSX.Element => {
         }
       })
       .catch(err => {
-        console.log(message.GET, err);
+        console.log(GET_DATA_ERROR, err);
       });
   };
 

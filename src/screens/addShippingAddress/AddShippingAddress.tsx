@@ -2,7 +2,7 @@ import {ButtonMain} from '@/commons';
 import Header from '@/commons/headers/Header';
 import DropdownField from '@/components/addShippingAddress/DropdownField';
 import InputField from '@/components/addShippingAddress/InputField';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 import {cityData} from '@/mock/cityData';
 import {countryData} from '@/mock/countryData';
 import {districtsData} from '@/mock/districtsData';
@@ -80,7 +80,7 @@ const AddShippingAddress = ({
         }
       })
       .catch(error => {
-        console.error(message.GET, error);
+        console.error(GET_DATA_ERROR, error);
       });
   };
 

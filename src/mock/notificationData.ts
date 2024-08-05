@@ -1,12 +1,5 @@
 import {img_background_boarding, img_black_simple_lamp} from '@/assets/images';
 
-export enum NotificationTypeEnum {
-  NEW = 'new',
-  HOT = 'hot',
-  VIEWED = 'viewed',
-  UNVIEWED = 'unviewed',
-}
-
 export const notificationData = [
   {
     id: 1,
@@ -14,7 +7,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been confirmed',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.NEW,
+    type: 'NEW',
   },
   {
     id: 2,
@@ -22,7 +15,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.VIEWED,
+    type: 'VIEWED',
   },
   {
     id: 3,
@@ -30,7 +23,7 @@ export const notificationData = [
     label: 'Discover hot sale furnitures this week.',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.HOT,
+    type: 'HOT',
   },
   {
     id: 4,
@@ -38,7 +31,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been confirmed',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.VIEWED,
+    type: 'VIEWED',
   },
   {
     id: 5,
@@ -46,7 +39,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.VIEWED,
+    type: 'VIEWED',
   },
   {
     id: 6,
@@ -54,7 +47,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.VIEWED,
+    type: 'VIEWED',
   },
   {
     id: 7,
@@ -62,6 +55,6 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: NotificationTypeEnum.VIEWED,
+    type: 'VIEWED',
   },
 ];

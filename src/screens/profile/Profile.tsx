@@ -1,7 +1,7 @@
 import {ic_exit, ic_search} from '@/assets/icons';
 import {img_user_one} from '@/assets/images';
 import ProfileTab from '@/components/profiles/ProfileTab';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR, REMOVE_DATA_ERROR} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -26,7 +26,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
           }
         })
         .catch(err => {
-          console.error(message.GET, err);
+          console.error(GET_DATA_ERROR, err);
         });
     };
     getData();
@@ -46,8 +46,9 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
   //TODO: implement later
   const handlePaymentMethod = (): void => {};
 
-  //TODO: implement later
-  const handleSetting = (): void => {};
+  const handleSetting = (): void => {
+    navigation.navigate('Setting');
+  };
 
   const handleLogoutUser = (): void => {
     removeDataLocalStorage('loggedInUser')
@@ -58,7 +59,7 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
         });
       })
       .catch(error => {
-        console.error(message.REMOVE, error);
+        console.error(REMOVE_DATA_ERROR, error);
       });
   };
 

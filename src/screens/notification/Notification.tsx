@@ -1,16 +1,33 @@
 import {ic_search} from '@/assets/icons';
-import {notificationData, NotificationTypeEnum} from '@/mock/notificationData';
+import {notificationData} from '@/mock/notificationData';
 import {colors, spacing} from '@/themes';
 import React, {JSX} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {NotificationType} from '@/model/notification.model';
 
 const Notification = (): JSX.Element => {
+  const getNotificationTypeLabel = (type: string): string => {
+    switch (type) {
+      case 'HOT':
+        return 'Hot!';
+      case 'NEW':
+        return 'New';
+      default:
+        return '';
+    }
+  };
+
   const RenderItem = (notification: NotificationType) => (
-    <View
+    <TouchableOpacity
       style={
-        notification.type === NotificationTypeEnum.NEW ||
-        notification.type === NotificationTypeEnum.HOT
+        notification.type === 'NEW' || notification.type === 'HOT'
           ? styles.itemContainer
           : null
       }>
@@ -24,21 +41,15 @@ const Notification = (): JSX.Element => {
           {notification.type && (
             <Text
               style={
-                notification.type === NotificationTypeEnum.HOT
-                  ? styles.txtHot
-                  : styles.txtNew
+                notification.type === 'HOT' ? styles.txtHot : styles.txtNew
               }>
-              {notification.type === NotificationTypeEnum.HOT
-                ? 'Hot!'
-                : notification.type === NotificationTypeEnum.NEW
-                ? 'New'
-                : ''}
+              {getNotificationTypeLabel(notification.type)}
             </Text>
           )}
         </View>
       </View>
       <View style={styles.divider}></View>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <View style={styles.container}>

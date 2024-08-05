@@ -8,6 +8,7 @@ import {
   OrderSuccess,
   Product,
   ReviewsProduct,
+  Setting,
   ShippingAddress,
 } from '@/screens';
 import {RootStackParamsList} from './AppNavigation';
@@ -38,6 +39,7 @@ const MainNavigator = (): JSX.Element => {
         name="AddShippingAddress"
         component={AddShippingAddress}
       />
+      <MainStack.Screen name="Setting" component={Setting} />
     </MainStack.Navigator>
   );
 };

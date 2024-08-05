@@ -1,5 +1,5 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -47,7 +47,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
         }
       })
       .catch(error => {
-        console.error(message.GET, error);
+        console.error(GET_DATA_ERROR, error);
       });
   };
 

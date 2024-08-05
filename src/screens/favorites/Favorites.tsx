@@ -9,7 +9,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import FavoriteProductsList from '@/components/favorites/FavoriteProductsList';
-import {message} from '@/constants/message.constant';
+import {ADD_DATA_ERROR, GET_DATA_ERROR} from '@/constants/message.constant';
 
 type FavoritesProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'TabNavigation'>;
@@ -27,7 +27,7 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
             }
           })
           .catch(error => {
-            console.error(message.GET, error);
+            console.error(GET_DATA_ERROR, error);
           });
       };
 
@@ -41,7 +41,7 @@ const Favorites = ({navigation}: FavoritesProps): JSX.Element => {
         navigation.navigate('MyCart');
       })
       .catch(err => {
-        console.log(message.SET, err);
+        console.log(ADD_DATA_ERROR, err);
       });
   };
 

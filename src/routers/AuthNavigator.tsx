@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {colors} from '@/themes';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 
 const AuthStack = createNativeStackNavigator<RootStackParamsList>();
 
@@ -25,7 +25,7 @@ const AuthNavigator = (): JSX.Element => {
           }
         })
         .catch(error => {
-          console.error(message.GET, error);
+          console.error(GET_DATA_ERROR, error);
         })
         .finally(() => {
           setLoading(false);

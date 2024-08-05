@@ -17,7 +17,7 @@ import {Product} from '@/model/production.model';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
 import {useFocusEffect} from '@react-navigation/native';
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR, REMOVE_DATA_ERROR} from '@/constants/message.constant';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;
@@ -34,7 +34,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
             setProductList([]);
           })
           .catch(error => {
-            console.error(message.REMOVE, error);
+            console.error(REMOVE_DATA_ERROR, error);
           });
       };
     }, []),
@@ -49,7 +49,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
           }
         })
         .catch(error => {
-          console.error(message.GET, error);
+          console.error(GET_DATA_ERROR, error);
         });
     };
 

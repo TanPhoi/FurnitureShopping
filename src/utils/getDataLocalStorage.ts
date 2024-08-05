@@ -1,4 +1,4 @@
-import {message} from '@/constants/message.constant';
+import {GET_DATA_ERROR} from '@/constants/message.constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getDataLocalStorage = async <T>(key: string): Promise<T | null> => {
@@ -6,7 +6,7 @@ const getDataLocalStorage = async <T>(key: string): Promise<T | null> => {
     const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue ? (JSON.parse(jsonValue) as T) : null;
   } catch (error) {
-    console.error(message.GET, error);
+    console.error(GET_DATA_ERROR, error);
     return null;
   }
 };
