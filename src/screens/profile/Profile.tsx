@@ -40,11 +40,13 @@ const Profile = ({navigation}: ProfileProps): JSX.Element => {
     navigation.navigate('ShippingAddress');
   };
 
-  //TODO: implement later
-  const handleMyOrder = (): void => {};
+  const handleMyOrder = (): void => {
+    navigation.navigate('MyOrder');
+  };
 
-  //TODO: implement later
-  const handlePaymentMethod = (): void => {};
+  const handlePaymentMethod = (): void => {
+    navigation.navigate('PaymentMethod');
+  };
 
   const handleSetting = (): void => {
     navigation.navigate('Setting');

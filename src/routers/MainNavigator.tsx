@@ -4,6 +4,7 @@ import TabNavigation from '@/routers/TabNavigation';
 import {
   AddShippingAddress,
   MyCart,
+  MyOrder,
   MyReviews,
   OrderSuccess,
   Product,
@@ -13,6 +14,8 @@ import {
 } from '@/screens';
 import {RootStackParamsList} from './AppNavigation';
 import AuthNavigator from './AuthNavigator';
+import PaymentMethod from '@/screens/paymentMethod/PaymentMethod';
+import AddPaymentMethod from '@/screens/addPaymentMethod/AddPayamentMethod';
 
 const MainStack = createNativeStackNavigator<RootStackParamsList>();
 const MainNavigator = (): JSX.Element => {
@@ -40,6 +43,9 @@ const MainNavigator = (): JSX.Element => {
         component={AddShippingAddress}
       />
       <MainStack.Screen name="Setting" component={Setting} />
+      <MainStack.Screen name="MyOrder" component={MyOrder} />
+      <MainStack.Screen name="PaymentMethod" component={PaymentMethod} />
+      <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethod} />
     </MainStack.Navigator>
   );
 };

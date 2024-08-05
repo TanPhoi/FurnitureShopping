@@ -18,6 +18,7 @@ import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
 import {useFocusEffect} from '@react-navigation/native';
 import {GET_DATA_ERROR, REMOVE_DATA_ERROR} from '@/constants/message.constant';
+import {DeliveredOrder} from '@/model/deliveredOrder.model';
 
 type MyCartProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyCart'>;
@@ -91,8 +92,39 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
     [productList],
   );
 
+  const totalQuantity = useMemo(() => {
+    return productList.reduce((sum, product) => sum + product.quantity, 0);
+  }, [productList]);
+
+  const getCurrentDate = (): string => {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const handleCheckOut = (): void => {
-    navigation.navigate('OrderSuccess');
+    getDataLocalStorage<DeliveredOrder[]>('orderSuccess')
+      .then(existingOrders => {
+        if (!existingOrders) {
+          existingOrders = [];
+        }
+        const newId = Math.random();
+        const newOrder: DeliveredOrder = {
+          id: newId,
+          time: getCurrentDate(),
+          quantity: totalQuantity,
+          totalAmount: totalPrice,
+          type: 'Processing',
+        };
+        existingOrders.push(newOrder);
+        setDataLocalStorage('orderSuccess', existingOrders);
+        navigation.navigate('OrderSuccess');
+      })
+      .catch(err => {
+        console.error(GET_DATA_ERROR, err);
+      });
   };
 
   const handleBack = (): void => {
@@ -162,7 +194,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     paddingHorizontal: spacing.lg,
     rowGap: 20,
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   boxTxtInput: {
     flexDirection: 'row',

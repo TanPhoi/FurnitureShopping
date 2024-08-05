@@ -16,4 +16,5 @@ export const colors = {
   success: '#27AE60',
   red: '#EB5757',
   placeholder: '#B3B3B3',
+  disabled_button: '#999',
 };

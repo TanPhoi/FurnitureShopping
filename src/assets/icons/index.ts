@@ -29,6 +29,8 @@ import ic_background_success from '@/assets/icons/ic_background_success.png';
 import ic_checkMark from '@/assets/icons/ic_checkMark.png';
 import ic_success from '@/assets/icons/ic_success.png';
 import ic_checkbox from '@/assets/icons/ic_checkbox.png';
+import ic_visa from '@/assets/icons/ic_visa.png';
+import ic_mastercard from '@/assets/icons/ic_mastercard.png';
 
 export {
   ic_add,
@@ -62,4 +64,6 @@ export {
   ic_checkMark,
   ic_success,
   ic_checkbox,
+  ic_visa,
+  ic_mastercard,
 };

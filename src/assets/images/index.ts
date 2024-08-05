@@ -7,6 +7,7 @@ import img_coffee_table from '@/assets/images/img_coffee_table.png';
 import img_user_one from '@/assets/images/img_user_one.png';
 import img_user_two from '@/assets/images/img_user_two.png';
 import img_user_three from '@/assets/images/img_user_three.png';
+import img_wave from '@/assets/images/img_wave.png';
 
 export {
   img_background_boarding,
@@ -18,4 +19,5 @@ export {
   img_user_one,
   img_user_two,
   img_user_three,
+  img_wave,
 };

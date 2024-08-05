@@ -25,6 +25,9 @@ export type RootStackParamsList = {
   ShippingAddress: undefined;
   AddShippingAddress: undefined;
   Setting: undefined;
+  MyOrder: undefined;
+  PaymentMethod: undefined;
+  AddPaymentMethod: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
