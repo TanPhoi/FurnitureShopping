@@ -6,7 +6,6 @@ import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {img_wave} from '@/assets/images';
-import InputField from '@/components/addPaymentMethod/InputField';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import {PaymentType} from '@/model/paymentType.model';
 import {
@@ -14,6 +13,7 @@ import {
   formatExpirationDate,
 } from '@/constants/regexs.constant';
 import {FIELDS_REQUIRED} from '@/constants/message.constant';
+import InputField from '@/commons/textInputs/InputField';
 
 type AddPaymentMethodProps = {
   navigation: NativeStackNavigationProp<

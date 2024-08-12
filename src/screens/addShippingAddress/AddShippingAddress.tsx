@@ -1,7 +1,7 @@
 import {ButtonMain} from '@/commons';
 import Header from '@/commons/headers/Header';
+import InputField from '@/commons/textInputs/InputField';
 import DropdownField from '@/components/addShippingAddress/DropdownField';
-import InputField from '@/components/addShippingAddress/InputField';
 import {FIELDS_REQUIRED, GET_DATA_ERROR} from '@/constants/message.constant';
 import {cityData} from '@/mock/cityData';
 import {countryData} from '@/mock/countryData';
