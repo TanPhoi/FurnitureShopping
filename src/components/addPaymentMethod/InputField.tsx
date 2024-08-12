@@ -25,7 +25,7 @@ const InputField = ({
   maxLength,
   onChangeText,
 }: InputFieldProps): JSX.Element => {
-  const [focusedInput, setFocusedInput] = useState(false);
+  const [focusedInput, setFocusedInput] = useState<boolean>(false);
 
   return (
     <View style={focusedInput ? styles.boxInputFocus : styles.boxInput}>

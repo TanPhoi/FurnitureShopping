@@ -20,7 +20,7 @@ const DropdownField = ({
   onChange,
 }: DropdownFieldProps): JSX.Element => {
   const dropdownRef = useRef<IDropdownRef>(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const [isFocus, setIsFocus] = useState<boolean>(false);
 
   return (
     <TouchableOpacity
