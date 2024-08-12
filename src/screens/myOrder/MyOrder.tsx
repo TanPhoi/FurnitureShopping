@@ -1,6 +1,6 @@
 import Header from '@/commons/headers/Header';
 import OrderList from '@/components/myOrder/OrderList';
-import {deliveredOrderData} from '@/mock/deliveredOrderData';
+import {orderData} from '@/mock/orderData';
 import {DeliveredOrder} from '@/model/deliveredOrder.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -13,23 +13,27 @@ type MyOrderProps = {
   navigation: NativeStackNavigationProp<RootStackParamsList, 'MyOrder'>;
 };
 
+const tabs = [
+  {key: 'delivered', label: 'Delivered'},
+  {key: 'processing', label: 'Processing'},
+  {key: 'canceled', label: 'Canceled'},
+];
+
 const MyOrder = ({navigation}: MyOrderProps): JSX.Element => {
-  const [activeTab, setActiveTab] = useState('Delivered');
+  const [activeTab, setActiveTab] = useState<string>('delivered');
   const [processingList, setProcessingList] = useState<DeliveredOrder[]>([]);
 
   useEffect(() => {
     const getProcessing = (): void => {
       getDataLocalStorage<DeliveredOrder[]>('orderSuccess').then(order => {
-        if (order) {
-          setProcessingList(order);
-        }
+        setProcessingList(order || []);
       });
     };
     getProcessing();
   }, []);
 
   const filterOrdersByType = (type: string): DeliveredOrder[] => {
-    return deliveredOrderData.filter(order => order.type === type);
+    return orderData.filter(order => order.type === type);
   };
 
   const handleBack = (): void => {
@@ -38,12 +42,12 @@ const MyOrder = ({navigation}: MyOrderProps): JSX.Element => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'Delivered':
-        return <OrderList data={filterOrdersByType('Delivered')} />;
-      case 'Processing':
+      case 'delivered':
+        return <OrderList data={filterOrdersByType('delivered')} />;
+      case 'processing':
         return <OrderList data={processingList} />;
-      case 'Canceled':
-        return <OrderList data={filterOrdersByType('Canceled')} />;
+      case 'canceled':
+        return <OrderList data={filterOrdersByType('canceled')} />;
       default:
         return null;
     }
@@ -54,46 +58,21 @@ const MyOrder = ({navigation}: MyOrderProps): JSX.Element => {
       <Header title={'My order'} onPress={handleBack} />
 
       <View style={styles.tabs}>
-        <TouchableOpacity
-          style={styles.tab}
-          onPress={(): void => setActiveTab('Delivered')}>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'Delivered' && styles.activeTabText,
-            ]}>
-            Delivered
-          </Text>
-          {activeTab === 'Delivered' && <View style={styles.activeTab}></View>}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tab}
-          onPress={(): void => setActiveTab('Processing')}>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'Processing' && styles.activeTabText,
-            ]}>
-            Processing
-          </Text>
-
-          {activeTab === 'Processing' && <View style={styles.activeTab}></View>}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tab}
-          onPress={(): void => setActiveTab('Canceled')}>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'Canceled' && styles.activeTabText,
-            ]}>
-            Canceled
-          </Text>
-
-          {activeTab === 'Canceled' && <View style={styles.activeTab}></View>}
-        </TouchableOpacity>
+        {tabs.map(tab => (
+          <TouchableOpacity
+            key={tab.key}
+            style={styles.tab}
+            onPress={() => setActiveTab(tab.key)}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === tab.key && styles.activeTabText,
+              ]}>
+              {tab.label}
+            </Text>
+            {activeTab === tab.key && <View style={styles.activeTab}></View>}
+          </TouchableOpacity>
+        ))}
       </View>
 
       <View style={styles.content}>{renderContent()}</View>

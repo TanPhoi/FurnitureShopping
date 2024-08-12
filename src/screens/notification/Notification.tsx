@@ -15,9 +15,9 @@ import {NotificationType} from '@/model/notification.model';
 const Notification = (): JSX.Element => {
   const getNotificationTypeLabel = (type: string): string => {
     switch (type) {
-      case 'HOT':
+      case 'hot':
         return 'Hot!';
-      case 'NEW':
+      case 'new':
         return 'New';
       default:
         return '';
@@ -27,7 +27,7 @@ const Notification = (): JSX.Element => {
   const RenderItem = (notification: NotificationType) => (
     <TouchableOpacity
       style={
-        notification.type === 'NEW' || notification.type === 'HOT'
+        notification.type === 'new' || notification.type === 'hot'
           ? styles.itemContainer
           : null
       }>
@@ -41,7 +41,7 @@ const Notification = (): JSX.Element => {
           {notification.type && (
             <Text
               style={
-                notification.type === 'HOT' ? styles.txtHot : styles.txtNew
+                notification.type === 'hot' ? styles.txtHot : styles.txtNew
               }>
               {getNotificationTypeLabel(notification.type)}
             </Text>

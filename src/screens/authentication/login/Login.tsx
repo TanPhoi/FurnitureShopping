@@ -1,5 +1,9 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
-import {GET_DATA_ERROR} from '@/constants/message.constant';
+import {
+  FIELDS_REQUIRED,
+  GET_DATA_ERROR,
+  INVALID_CREDENTIALS_ERROR,
+} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
@@ -26,7 +30,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
 
   const handleLogin = (): void => {
     if (!email || !password) {
-      Alert.alert('Please fill in all fields');
+      Alert.alert(FIELDS_REQUIRED);
       return;
     }
 
@@ -42,7 +46,7 @@ const Login = ({navigation}: LoginProps): JSX.Element => {
               }),
             );
           } else {
-            Alert.alert('Email or password is incorrect');
+            Alert.alert(INVALID_CREDENTIALS_ERROR);
           }
         }
       })

@@ -2,7 +2,7 @@ import {ButtonMain} from '@/commons';
 import Header from '@/commons/headers/Header';
 import DropdownField from '@/components/addShippingAddress/DropdownField';
 import InputField from '@/components/addShippingAddress/InputField';
-import {GET_DATA_ERROR} from '@/constants/message.constant';
+import {FIELDS_REQUIRED, GET_DATA_ERROR} from '@/constants/message.constant';
 import {cityData} from '@/mock/cityData';
 import {countryData} from '@/mock/countryData';
 import {districtsData} from '@/mock/districtsData';
@@ -51,7 +51,7 @@ const AddShippingAddress = ({
 
   const handleAddAddress = (): void => {
     if (!name || !address || !zipCode || !country || !city || !district) {
-      Alert.alert('Please enter the blank field!');
+      Alert.alert(FIELDS_REQUIRED);
       return;
     }
 

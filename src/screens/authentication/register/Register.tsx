@@ -1,4 +1,10 @@
 import {ButtonMain, HeaderDivider, TextInputMain} from '@/commons';
+import {
+  FIELDS_REQUIRED,
+  INVALID_EMAIL_ERROR,
+  PASSWORDS_MISMATCH_ERROR,
+  WEAK_PASSWORD_ERROR,
+} from '@/constants/message.constant';
 import {User} from '@/model/user.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {spacing} from '@/themes';
@@ -41,28 +47,26 @@ const Register = ({navigation}: RegisterProps): JSX.Element => {
 
   const handleRegister = (): void => {
     if (!name || !email || !password || !confirmPassword) {
-      Alert.alert('Please, fill in all the fields');
+      Alert.alert(FIELDS_REQUIRED);
       return;
     }
 
     if (!validateEmail(email)) {
-      Alert.alert('Please, enter a valid email');
+      Alert.alert(INVALID_EMAIL_ERROR);
       return;
     }
 
     if (!validatePassword(password)) {
-      Alert.alert(
-        'Password must be at least 6 characters long, contain at least one uppercase letter, one number, and one special character',
-      );
+      Alert.alert(WEAK_PASSWORD_ERROR);
       return;
     }
 
     if (confirmPassword !== password) {
-      Alert.alert('Passwords do not match');
+      Alert.alert(PASSWORDS_MISMATCH_ERROR);
       return;
     }
 
-    const userData: User = {name, email, password, confirmPassword};
+    const userData: User = {name, email, password};
 
     saveUserDataToAsyncStorage(userData);
   };

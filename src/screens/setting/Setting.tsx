@@ -16,9 +16,12 @@ type SettingProps = {
 };
 
 const Setting = ({navigation}: SettingProps): JSX.Element => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [userInfo, setUserInfo] = useState<User>({
+    name: '',
+    email: '',
+    password: '',
+  });
+
   const [editableInformation, setEditableInformation] =
     useState<boolean>(false);
   const [editablePassword, setEditablePassword] = useState<boolean>(false);
@@ -29,9 +32,11 @@ const Setting = ({navigation}: SettingProps): JSX.Element => {
   useEffect(() => {
     getDataLocalStorage<User>('user').then(user => {
       if (user) {
-        setName(user.name);
-        setEmail(user.email);
-        setPassword(user.password);
+        setUserInfo({
+          name: user.name,
+          email: user.email,
+          password: user.password,
+        });
       }
     });
   }, []);
@@ -42,6 +47,13 @@ const Setting = ({navigation}: SettingProps): JSX.Element => {
 
   const handleEditablePassword = (): void => {
     setEditablePassword(!editablePassword);
+  };
+
+  const handleInputChange = (key: keyof User, value: string) => {
+    setUserInfo(prevState => ({
+      ...prevState,
+      [key]: value,
+    }));
   };
 
   const handleBack = () => {
@@ -79,15 +91,15 @@ const Setting = ({navigation}: SettingProps): JSX.Element => {
           />
           <LabelInput
             label={'Name'}
-            onChangeText={setName}
-            value={name}
+            onChangeText={text => handleInputChange('name', text)}
+            value={userInfo.name}
             secureTextEntry={false}
             editable={editableInformation}
           />
           <LabelInput
             label={'Email'}
-            onChangeText={setEmail}
-            value={email}
+            onChangeText={text => handleInputChange('email', text)}
+            value={userInfo.email}
             secureTextEntry={false}
             editable={editableInformation}
           />
@@ -101,8 +113,8 @@ const Setting = ({navigation}: SettingProps): JSX.Element => {
           </View>
           <LabelInput
             label={'Password'}
-            onChangeText={setPassword}
-            value={password}
+            onChangeText={text => handleInputChange('password', text)}
+            value={userInfo.password}
             secureTextEntry={true}
             editable={editablePassword}
           />

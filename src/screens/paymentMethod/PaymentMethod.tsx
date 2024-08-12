@@ -1,10 +1,15 @@
 import {ic_add, ic_checkbox, ic_mastercard, ic_visa} from '@/assets/icons';
 import {img_wave} from '@/assets/images';
 import {Header} from '@/commons';
+import {ADD_DATA_ERROR} from '@/constants/message.constant';
 import {PaymentType} from '@/model/paymentType.model';
 import {RootStackParamsList} from '@/routers/AppNavigation';
 import {colors, spacing} from '@/themes';
-import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
+import {
+  formatCardNumber,
+  getDataLocalStorage,
+  setDataLocalStorage,
+} from '@/utils';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {JSX, useCallback, useEffect, useState} from 'react';
@@ -23,19 +28,27 @@ type PaymentMethodProps = {
 
 const PaymentMethod = ({navigation}: PaymentMethodProps): JSX.Element => {
   const [paymentList, setPaymentList] = useState<PaymentType[] | null>(null);
+  const [paymentId, setPaymentId] = useState<number>(0);
 
   useFocusEffect(
     useCallback(() => {
       const getPayments = (): void => {
         getDataLocalStorage<PaymentType[]>('payments').then(payments => {
-          if (payments) {
-            setPaymentList(payments);
-          }
+          setPaymentList(payments || []);
         });
       };
       getPayments();
     }, []),
   );
+
+  useEffect(() => {
+    const getPaymentID = (): void => {
+      getDataLocalStorage<number>('paymentID').then(paymentID => {
+        setPaymentId(paymentID || 0);
+      });
+    };
+    getPaymentID();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
@@ -46,24 +59,17 @@ const PaymentMethod = ({navigation}: PaymentMethodProps): JSX.Element => {
   };
 
   const handleCheckbox = (id: number): void => {
-    if (paymentList) {
-      const updatedPaymentList = paymentList.map(payment => ({
-        ...payment,
-        isDefault: payment.id === id ? !payment.isDefault : false,
-      }));
-      setPaymentList(updatedPaymentList);
-      setDataLocalStorage('payments', updatedPaymentList);
-    }
-  };
-
-  const formatCardNumber = (number: string): string => {
-    const cardNumberStr = number.toString();
-    const last4Digits = cardNumberStr.slice(-4);
-    return `**** **** **** ${last4Digits}`;
+    setDataLocalStorage('paymentID', id)
+      .then(() => {
+        setPaymentId(id);
+      })
+      .catch(err => {
+        console.log(ADD_DATA_ERROR, err);
+      });
   };
 
   const RenderItem = ({item}: {item: PaymentType}) => (
-    <View style={!item.isDefault && styles.boxPayment}>
+    <View style={item.id !== paymentId && styles.boxPayment}>
       <View style={styles.paymentContainer}>
         <Image style={styles.wave} source={img_wave} />
         <View style={styles.boxTop}>
@@ -93,8 +99,11 @@ const PaymentMethod = ({navigation}: PaymentMethodProps): JSX.Element => {
       <View style={styles.checkboxContainer}>
         <TouchableOpacity
           onPress={() => handleCheckbox(item.id)}
-          style={[styles.checkbox, item.isDefault && styles.checkedCheckbox]}>
-          {item.isDefault && (
+          style={[
+            styles.checkbox,
+            item.id === paymentId && styles.checkedCheckbox,
+          ]}>
+          {item.id === paymentId && (
             <Image style={styles.checkmark} source={ic_checkbox} />
           )}
         </TouchableOpacity>

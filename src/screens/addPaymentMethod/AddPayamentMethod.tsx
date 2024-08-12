@@ -9,6 +9,11 @@ import {img_wave} from '@/assets/images';
 import InputField from '@/components/addPaymentMethod/InputField';
 import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
 import {PaymentType} from '@/model/paymentType.model';
+import {
+  formatCardNumber,
+  formatExpirationDate,
+} from '@/constants/regexs.constant';
+import {FIELDS_REQUIRED} from '@/constants/message.constant';
 
 type AddPaymentMethodProps = {
   navigation: NativeStackNavigationProp<
@@ -28,12 +33,16 @@ const AddPaymentMethod = ({navigation}: AddPaymentMethodProps): JSX.Element => {
   };
 
   const handleAddNewCard = (): void => {
-    if (!cardHolderName || !cardNumber || !cvv || !expirationDate) {
-      return Alert.alert('Please fill in all fields');
-    }
-
-    if (cardNumber.length < 19 || cvv.length < 3 || expirationDate.length < 5) {
-      return Alert.alert('Please fill in all fields');
+    if (
+      !cardHolderName ||
+      !cardNumber ||
+      !cvv ||
+      !expirationDate ||
+      cardNumber.length < 19 ||
+      cvv.length < 3 ||
+      expirationDate.length < 5
+    ) {
+      return Alert.alert(FIELDS_REQUIRED);
     }
 
     getDataLocalStorage<PaymentType[]>('payments').then(payments => {
@@ -54,19 +63,6 @@ const AddPaymentMethod = ({navigation}: AddPaymentMethodProps): JSX.Element => {
       setDataLocalStorage('payments', payments);
       navigation.goBack();
     });
-  };
-
-  const formatCardNumber = (number: string): string => {
-    const cleanNumber = number.replace(/\D/g, '');
-    const formattedNumber = cleanNumber.match(/.{1,4}/g)?.join(' ') || '';
-    return formattedNumber;
-  };
-
-  const formatExpirationDate = (date: string): string => {
-    const cleanDate = date.replace(/\D/g, '');
-    const month = cleanDate.substring(0, 2);
-    const year = cleanDate.substring(2, 4);
-    return `${month}${month && year ? '/' : ''}${year}`;
   };
 
   return (

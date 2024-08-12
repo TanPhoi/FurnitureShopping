@@ -37,14 +37,14 @@ const OrderList = ({data}: OrderListProps): JSX.Element => {
             <Text style={styles.txtButton}>Detail</Text>
           </View>
           <View style={styles.boxProcessing}>
-            {item.type === 'Processing' && (
+            {item.type === 'processing' && (
               <Image style={styles.icon} source={ic_clock} />
             )}
             <Text
               style={[
-                item.type === 'Processing'
+                item.type === 'processing'
                   ? styles.txtProcessing
-                  : item.type === 'Canceled'
+                  : item.type === 'canceled'
                   ? styles.txtCanceled
                   : styles.txtDelivered,
               ]}>

@@ -1,9 +1,9 @@
-import {ic_user_one, ic_user_three, ic_user_two} from '@/assets/icons';
+import {img_user_one, img_user_three, img_user_two} from '@/assets/images';
 
 export const reviewProductData = [
   {
     id: 1,
-    image: ic_user_one,
+    image: img_user_one,
     name: 'Bruno Fernandes',
     time: '20/03/2020',
     rating: 1,
@@ -12,7 +12,7 @@ export const reviewProductData = [
   },
   {
     id: 2,
-    image: ic_user_two,
+    image: img_user_two,
     name: 'Tracy Mosby',
     time: '20/03/2020',
     rating: 3,
@@ -21,7 +21,7 @@ export const reviewProductData = [
   },
   {
     id: 3,
-    image: ic_user_three,
+    image: img_user_three,
     name: 'Bruno Fernandes',
     time: '20/03/2020',
     rating: 4,

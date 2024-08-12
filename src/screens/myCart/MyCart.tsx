@@ -14,10 +14,17 @@ import {
   View,
 } from 'react-native';
 import {Product} from '@/model/production.model';
-import {getDataLocalStorage, setDataLocalStorage} from '@/utils';
-import removeDataLocalStorage from '@/utils/removeDataLocalStorage';
+import {
+  getDataLocalStorage,
+  removeDataLocalStorage,
+  setDataLocalStorage,
+} from '@/utils';
 import {useFocusEffect} from '@react-navigation/native';
-import {GET_DATA_ERROR, REMOVE_DATA_ERROR} from '@/constants/message.constant';
+import {
+  ADD_DATA_ERROR,
+  GET_DATA_ERROR,
+  REMOVE_DATA_ERROR,
+} from '@/constants/message.constant';
 import {DeliveredOrder} from '@/model/deliveredOrder.model';
 
 type MyCartProps = {
@@ -86,7 +93,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
       try {
         setDataLocalStorage('myCart', updateProducts);
       } catch (err) {
-        console.error('Failed to update AsyncStorage:', err);
+        console.error(ADD_DATA_ERROR, err);
       }
     },
     [productList],
@@ -116,7 +123,7 @@ const MyCart = ({navigation}: MyCartProps): JSX.Element => {
           time: getCurrentDate(),
           quantity: totalQuantity,
           totalAmount: totalPrice,
-          type: 'Processing',
+          type: 'processing',
         };
         existingOrders.push(newOrder);
         setDataLocalStorage('orderSuccess', existingOrders);

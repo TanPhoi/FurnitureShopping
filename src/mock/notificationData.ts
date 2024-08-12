@@ -7,7 +7,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been confirmed',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'NEW',
+    type: 'new',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'VIEWED',
+    type: 'viewed',
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ export const notificationData = [
     label: 'Discover hot sale furnitures this week.',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'HOT',
+    type: 'hot',
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been confirmed',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'VIEWED',
+    type: 'viewed',
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'VIEWED',
+    type: 'viewed',
   },
   {
     id: 6,
@@ -47,7 +47,7 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'VIEWED',
+    type: 'viewed',
   },
   {
     id: 7,
@@ -55,6 +55,6 @@ export const notificationData = [
     label: 'Your order #123456789 has been canceled',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis pretium et in arcu adipiscing nec. Turpis pretium et in arcu adipiscing nec.',
-    type: 'VIEWED',
+    type: 'viewed',
   },
 ];
