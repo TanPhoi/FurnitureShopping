@@ -112,7 +112,7 @@ const AddPaymentMethod = ({navigation}: AddPaymentMethodProps): JSX.Element => {
           />
 
           <View style={styles.boxInputField}>
-            <View style={{flex: 1}}>
+            <View style={styles.box}>
               <InputField
                 label={'CVV'}
                 placeholder={'Ex: 123'}
@@ -122,7 +122,7 @@ const AddPaymentMethod = ({navigation}: AddPaymentMethodProps): JSX.Element => {
               />
             </View>
 
-            <View style={{flex: 1}}>
+            <View style={styles.box}>
               <InputField
                 label={'Expiration Date'}
                 placeholder={'Ex: 03/22'}
@@ -227,6 +227,10 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: spacing.sm,
     marginHorizontal: spacing.lg,
+  },
+
+  box: {
+    flex: 1,
   },
 });
 
