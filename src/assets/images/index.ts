@@ -8,16 +8,3 @@ import img_user_one from '@/assets/images/img_user_one.png';
 import img_user_two from '@/assets/images/img_user_two.png';
 import img_user_three from '@/assets/images/img_user_three.png';
 import img_wave from '@/assets/images/img_wave.png';
-
-export {
-  img_background_boarding,
-  img_black_simple_lamp,
-  img_coffee_chair,
-  img_minimal_stand,
-  img_simple_desk,
-  img_coffee_table,
-  img_user_one,
-  img_user_two,
-  img_user_three,
-  img_wave,
-};
