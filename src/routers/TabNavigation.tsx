@@ -3,7 +3,6 @@ import {Favorites, Home, Notification, Profile} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image, ImageSourcePropType} from 'react-native';
 import {ic_home, ic_notification, ic_save, ic_user} from '@/assets/icons';
-import {NavigationContainer} from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
 const icons: Record<string, ImageSourcePropType> = {
@@ -13,6 +12,7 @@ const icons: Record<string, ImageSourcePropType> = {
   Profile: ic_user,
 };
 
+// Tab
 const TabNavigation = (): JSX.Element => {
   return (
     <Tab.Navigator
